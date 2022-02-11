@@ -31,12 +31,14 @@ def drawTileOutline(win, x, y):
     drawTileLine(win, p5, p6)
     drawTileLine(win, p6, p1)
 
-def drawImgOnTile(win, x, y, src, size=40):
-    img = pygame.image.load(src)
-    img = pygame.transform.scale(img, (size, size))
-    win.blit(img, (x-size/2,y-size/2))
+def drawImgOnTile(win, x, y, img, size=40):
+    win.blit(pygame.transform.scale(img, (size, size)), (x-size/2,y-size/2))
 
 def drawTiles(win, tileList):
+    #assets
+    treeImg = pygame.image.load("tree.png").convert_alpha()
+    playerImg = pygame.image.load("player.png").convert_alpha()
+
     startY = height/2 - 1.5*tilesideLength*(len(tileList)/2)
     startX = width/2 - 2*tileWidth*(len(tileList[0])/2)
     for y, row in enumerate(tileList):
@@ -45,9 +47,9 @@ def drawTiles(win, tileList):
             coordY = startY + 1.5*y*tilesideLength
             drawTileOutline(win, coordX, coordY)
             if tile == "p":
-                drawImgOnTile(win, coordX, coordY, "player.png")
+                drawImgOnTile(win, coordX, coordY, playerImg)
             if tile == "t":
-                drawImgOnTile(win, coordX, coordY, "tree.png")
+                drawImgOnTile(win, coordX, coordY, treeImg)
 
 
 def drawGame(win):

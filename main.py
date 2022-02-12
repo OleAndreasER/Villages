@@ -1,9 +1,9 @@
 #!/bin/python3
 import pygame
-from graphics import drawGame
+from library.graphics import drawGame
 
-width = 1920-20
-height = 1080-20
+width = 1920
+height = 1080
 
 fps = 60
 

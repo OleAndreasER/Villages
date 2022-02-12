@@ -1,9 +1,10 @@
 #!/bin/python3
 import pygame
-from tiles import tiles
+import os
+from library.tiles import tiles
 
-width = 1920-20
-height = 1080-20
+width = 1920
+height = 1080
 
 white = (225,225,225)
 grassGreen = (3,160,98)
@@ -35,10 +36,7 @@ def drawImgOnTile(win, x, y, img, size=40):
     win.blit(pygame.transform.scale(img, (size, size)), (x-size/2,y-size/2))
 
 def drawTiles(win, tileList):
-    #assets
-    treeImg = pygame.image.load("tree.png").convert_alpha()
-    playerImg = pygame.image.load("player.png").convert_alpha()
-
+    #Goes through tiles and renders them in aproprate coordinate on the screen.
     startY = height/2 - 1.5*tilesideLength*(len(tileList)/2)
     startX = width/2 - 2*tileWidth*(len(tileList[0])/2)
     for y, row in enumerate(tileList):
@@ -46,10 +44,10 @@ def drawTiles(win, tileList):
             coordX = startX + 2*x*tileWidth + tileWidth*(y%2)
             coordY = startY + 1.5*y*tilesideLength
             drawTileOutline(win, coordX, coordY)
-            if tile == "p":
-                drawImgOnTile(win, coordX, coordY, playerImg)
-            if tile == "t":
-                drawImgOnTile(win, coordX, coordY, treeImg)
+            if tile != " ":
+                img = pygame.image.load(os.path.join("assets", tile.img)).convert_alpha()
+                drawImgOnTile(win, coordX, coordY, img)
+
 
 
 def drawGame(win):

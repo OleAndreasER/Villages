@@ -42,17 +42,22 @@ def drawImgOnTile(win, x, y, img, size=40):
 
 def drawTiles(win, tileList):
     #Goes through tiles and renders them in aproprate coordinate on the screen.
-    startY = centerY - 1.5*tilesideLength*zoom*(len(tileList)/2)
-    startX = centerX - 2*tileWidth*zoom*(len(tileList[0])/2)
     for y, row in enumerate(tileList):
         for x, tile in enumerate(row):
-            coordX = startX + 2*x*tileWidth*zoom + tileWidth*zoom*(y%2)
-            coordY = startY + 1.5*y*tilesideLength*zoom
+            coordX, coordY = indexToCoordinates(x, y, tileList, centerX, centerY, zoom)
             drawTileOutline(win, coordX, coordY)
             if tile != " ":
                 img = pygame.image.load(os.path.join("assets", tile.img)).convert_alpha()
                 drawImgOnTile(win, coordX, coordY, img)
 
+
+def indexToCoordinates(x, y, tileList, centerX, centerY, zoom):
+    startX = centerX - 2*tileWidth*zoom*(len(tileList[0])/2)
+    startY = centerY - 1.5*tilesideLength*zoom*(len(tileList)/2)
+
+    coordX = startX + 2*x*tileWidth*zoom + tileWidth*zoom*(y%2)
+    coordY = startY + 1.5*y*tilesideLength*zoom
+    return (coordX, coordY)
 
 
 def drawGame(win):
@@ -71,7 +76,7 @@ def drag(pos):
 
 def changeZoom(direction): 
     global zoom
-    zoom += 0.1*direction *zoom
+    zoom += 0.15*direction *zoom
     if zoom < 0.6: zoom = 0.6
     elif zoom > 3: zoom = 3
 

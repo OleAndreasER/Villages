@@ -1,3 +1,3 @@
 class Citizen:
-    img = "player.png"
+    img = "citizen.png"
 

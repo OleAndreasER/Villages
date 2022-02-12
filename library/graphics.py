@@ -6,6 +6,11 @@ from library.tiles import tiles
 width = 1920
 height = 1080
 
+centerX = width/2
+centerY = height/2
+
+zoom = 1
+
 white = (225,225,225)
 grassGreen = (3,160,98)
 
@@ -18,12 +23,12 @@ tileWidth = tilesideLength/2 * 3**(1/2)
 
 def drawTileOutline(win, x, y):
     #points
-    p1 = (x, y - tilesideLength)
-    p2 = (x + tileWidth, y-tilesideLength/2)
-    p3 = (x + tileWidth, y+tilesideLength/2)
-    p4 = (x, y + tilesideLength)
-    p5 = (x - tileWidth, y+tilesideLength/2)
-    p6 = (x - tileWidth, y-tilesideLength/2)
+    p1 = (x, y - tilesideLength*zoom)
+    p2 = (x + tileWidth*zoom, y-tilesideLength*zoom/2)
+    p3 = (x + tileWidth*zoom, y+tilesideLength*zoom/2)
+    p4 = (x, y + tilesideLength*zoom)
+    p5 = (x - tileWidth*zoom, y+tilesideLength*zoom/2)
+    p6 = (x - tileWidth*zoom, y-tilesideLength*zoom/2)
     
     drawTileLine(win, p1, p2)
     drawTileLine(win, p2, p3)
@@ -33,16 +38,16 @@ def drawTileOutline(win, x, y):
     drawTileLine(win, p6, p1)
 
 def drawImgOnTile(win, x, y, img, size=40):
-    win.blit(pygame.transform.scale(img, (size, size)), (x-size/2,y-size/2))
+    win.blit(pygame.transform.scale(img, (size*zoom, size*zoom)), (x-size*zoom/2,y-size*zoom/2))
 
 def drawTiles(win, tileList):
     #Goes through tiles and renders them in aproprate coordinate on the screen.
-    startY = height/2 - 1.5*tilesideLength*(len(tileList)/2)
-    startX = width/2 - 2*tileWidth*(len(tileList[0])/2)
+    startY = centerY - 1.5*tilesideLength*zoom*(len(tileList)/2)
+    startX = centerX - 2*tileWidth*zoom*(len(tileList[0])/2)
     for y, row in enumerate(tileList):
         for x, tile in enumerate(row):
-            coordX = startX + 2*x*tileWidth + tileWidth*(y%2)
-            coordY = startY + 1.5*y*tilesideLength
+            coordX = startX + 2*x*tileWidth*zoom + tileWidth*zoom*(y%2)
+            coordY = startY + 1.5*y*tilesideLength*zoom
             drawTileOutline(win, coordX, coordY)
             if tile != " ":
                 img = pygame.image.load(os.path.join("assets", tile.img)).convert_alpha()
@@ -53,4 +58,21 @@ def drawTiles(win, tileList):
 def drawGame(win):
     win.fill(grassGreen) 
     drawTiles(win, tiles)
+
+
+
+
+
+def drag(pos):
+    global centerX
+    global centerY
+    centerX += pos[0] *0.5
+    centerY += pos[1] *0.5
+
+def changeZoom(direction): 
+    global zoom
+    zoom += 0.1*direction *zoom
+    if zoom < 0.6: zoom = 0.6
+    elif zoom > 3: zoom = 3
+
 

@@ -6,8 +6,10 @@ from library.tiles import tiles
 width = 1920
 height = 1080
 
-centerX = width/2
-centerY = height/2
+#topleft
+#TODO: center on player
+offsetX = 0
+offsetY = 0
 
 zoom = 1
 
@@ -44,20 +46,20 @@ def drawTiles(win, tileList):
     #Goes through tiles and renders them in aproprate coordinate on the screen.
     for y, row in enumerate(tileList):
         for x, tile in enumerate(row):
-            coordX, coordY = indexToCoordinates(x, y, tileList, centerX, centerY, zoom)
+            coordX, coordY = indexToCoordinates(x, y, tileList, offsetX, offsetY, zoom)
             drawTileOutline(win, coordX, coordY)
             if tile != " ":
                 img = pygame.image.load(os.path.join("assets", tile.img)).convert_alpha()
                 drawImgOnTile(win, coordX, coordY, img)
 
 
-def indexToCoordinates(x, y, tileList, centerX, centerY, zoom):
-    startX = centerX - 2*tileWidth*zoom*(len(tileList[0])/2)
-    startY = centerY - 1.5*tilesideLength*zoom*(len(tileList)/2)
-
-    coordX = startX + 2*x*tileWidth*zoom + tileWidth*zoom*(y%2)
-    coordY = startY + 1.5*y*tilesideLength*zoom
+def indexToCoordinates(x, y, tileList, offsetX, offsetY, zoom):
+    coordY = 1.5*y*tilesideLength*zoom + offsetY
+    coordX = 2*x*tileWidth*zoom + tileWidth*zoom*(y%2) + offsetX
     return (coordX, coordY)
+
+def coordinatesToIndex(x, y, tileList, offsetX, offsetY, zoom):
+    return 
 
 
 def drawGame(win):
@@ -66,13 +68,13 @@ def drawGame(win):
 
 
 
-
-
 def drag(pos):
-    global centerX
-    global centerY
-    centerX += pos[0] *0.5
-    centerY += pos[1] *0.5
+    global offsetX
+    global offsetY
+
+    offsetX += pos[0]*0.5
+    offsetY += pos[1]*0.5
+    
 
 def changeZoom(direction): 
     global zoom

@@ -1,6 +1,6 @@
 #!/bin/python3
 import pygame
-from library.graphics import drawGame, drag, changeZoom
+from library.graphics import drawGame, drag, changeZoom, rightClick
 
 width = 1920
 height = 1080
@@ -36,6 +36,7 @@ def main():
             elif event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 1:
                     isDragging = False 
+                    rightClick(win, event.pos)
 
             elif event.type == pygame.MOUSEMOTION:
                 if isDragging:

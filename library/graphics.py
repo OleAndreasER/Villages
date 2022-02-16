@@ -83,7 +83,6 @@ def drawTiles(win, tileList):
                 img = pygame.image.load(os.path.join("assets", tile.img)).convert_alpha()
                 drawImgOnTile(win, screenX, screenY, img, imgSize())
 
-
 def drawGame(win):
     win.fill(grassGreen) 
     drawTiles(win, tiles)
@@ -104,7 +103,11 @@ def changeZoom(direction, pos):
     newZoom = zoom + 0.15*direction *zoom
     if newZoom < 0.6: return
     elif newZoom > 3: return
+    beforeZoomX, beforeZoomY = screenToWorld(pos[0], pos[1])
     zoom = newZoom
+    afterZoomX, afterZoomY = screenToWorld(pos[0], pos[1])
+    offsetX += beforeZoomX - afterZoomX
+    offsetY += beforeZoomY - afterZoomY
 
 def rightClick(win, pos):
     global selected

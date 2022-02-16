@@ -29,9 +29,9 @@ def main():
                     isDragging = True
                     rightClick(win, event.pos)
                 elif event.button == 4: #wheelup
-                    changeZoom(1, pygame.mouse.get_pos())
+                    changeZoom(1, event.pos)
                 elif event.button == 5: #wheeldown
-                    changeZoom(-1, pygame.mouse.get_pos())
+                    changeZoom(-1, event.pos)
                     
                 
             elif event.type == pygame.MOUSEBUTTONUP:

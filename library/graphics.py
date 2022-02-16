@@ -104,8 +104,8 @@ def drawTiles(win, tileList):
             worldX, worldY = indexToCoordinates(x, y)
             screenX, screenY = worldToScreen(worldX, worldY)
             drawTileOutline(win, screenX, screenY)
-            if tile != " ":
-                img = pygame.image.load(os.path.join("assets", tile.img)).convert_alpha()
+            for tileType in tile.tileTypes:
+                img = pygame.image.load(os.path.join("assets", tileType.img)).convert_alpha()
                 drawImgOnTile(win, screenX, screenY, img, imgSize())
 
 def drawGame(win):

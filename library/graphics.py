@@ -18,6 +18,7 @@ white = (225,225,225)
 grassGreen = (3,160,98)
 black = (0,0,0)
 
+#Selected tile center's world coordinates
 selected = None
 
 worldImgSize = 40
@@ -48,6 +49,30 @@ def indexToCoordinates(x, y):
     return (
         2*x*worldTileWidth + (y%2)*worldTileWidth,
         1.5*y*worldTileSideLength)
+
+def coordinatesToIndex(x, y):
+    shortestDistance = None
+    closestPoint = None
+    for i in range(len(tiles)):
+        for j in range(len(tiles[0])):
+            worldX, worldY = indexToCoordinates(j, i)
+            distance = pointDistance(x, y, worldX, worldY)
+            if shortestDistance == None or distance < shortestDistance:
+                shortestDistance = distance
+                closestPoint = (j, i)
+
+    return closestPoint
+
+def coordinatesToTileCenter(x, y):
+    return indexToCoordinates(*coordinatesToIndex(x, y))
+
+def worldFuncWithScreen(func, screenX, screenY):
+    return func(*screenToWorld(screenX, screenY))
+
+#Math
+
+def pointDistance(x1, y1, x2, y2):
+    return ((x1-x2)**2 + (y1-y2)**2)**0.5
 
 #Drawing
 def drawTileLine(win, startPosition, endPosition, color=black):
@@ -86,6 +111,8 @@ def drawTiles(win, tileList):
 def drawGame(win):
     win.fill(grassGreen) 
     drawTiles(win, tiles)
+    if selected != None:
+        drawTileOutline(win, *worldToScreen(*selected), tileSelectColor)
 
 #Change camera
 def drag(pos):
@@ -111,5 +138,6 @@ def changeZoom(direction, pos):
 
 def rightClick(win, pos):
     global selected
+    selected = worldFuncWithScreen(coordinatesToTileCenter, *pos)
 
     

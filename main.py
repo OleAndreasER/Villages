@@ -27,16 +27,16 @@ def main():
                 pos = pygame.mouse.get_pos()
                 if event.button == 1:
                     isDragging = True
+                    rightClick(win, event.pos)
                 elif event.button == 4: #wheelup
-                    changeZoom(1)
+                    changeZoom(1, pygame.mouse.get_pos())
                 elif event.button == 5: #wheeldown
-                    changeZoom(-1)
+                    changeZoom(-1, pygame.mouse.get_pos())
                     
                 
             elif event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 1:
                     isDragging = False 
-                    rightClick(win, event.pos)
 
             elif event.type == pygame.MOUSEMOTION:
                 if isDragging:

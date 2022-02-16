@@ -98,15 +98,32 @@ def drag(pos):
     offsetY += pos[1]*0.5
     
 
-def changeZoom(direction): 
+def changeZoom(direction, pos): 
+    global offsetX
+    global offsetY
     global zoom
-    zoom += 0.15*direction *zoom
-    if zoom < 0.6: zoom = 0.6
-    elif zoom > 3: zoom = 3
+    newZoom = zoom + 0.15*direction *zoom
+    if newZoom < 0.6: return
+    elif newZoom > 3: return
+    else:
+        offsetX += (pos[0] - offsetX)/newZoom/2
+        offsetY += (pos[1] - offsetY)/newZoom/2
+        zoom = newZoom
 
 
 def rightClick(win, pos):
     global selected
     selected = coordinatesToIndex(pos[0], pos[1], offsetX, offsetY, zoom)
     
+
+
+def screenToWorld((x, y)):
+    return (
+        x + offsetX,
+        y + offsetY)
+
+def worldToScreen(x,y,x,y):
+    return (
+        x - offsetX,
+        y - offsetY)
     

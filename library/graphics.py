@@ -2,6 +2,7 @@
 import pygame
 import pygame.gfxdraw
 import os
+from library.gamelogic import availableTiles, moveCitizen, getSelected, selectTile
 from library.tiles import tiles
 
 width = 1920
@@ -18,9 +19,6 @@ tileSelectColor = (225,229,124)
 white = (225,225,225)
 grassGreen = (3,160,98)
 black = (0,0,0)
-
-#Selected tile's index
-selected = None
 
 worldImgSize = 40
 worldTileSideLength = 30
@@ -114,11 +112,11 @@ def drawMoves(win, tileIndecies):
 def drawGame(win):
     win.fill(grassGreen) 
     drawTiles(win, tiles)
-    if selected != None:
-        drawTileOutline(win, *worldToScreen(*indexToCoordinates(*selected)), tileSelectColor)
-        selectedTile = tiles[selected[1]][selected[0]]
+    if getSelected() != None:
+        drawTileOutline(win, *worldToScreen(*indexToCoordinates(*getSelected())), tileSelectColor)
+        selectedTile = tiles[getSelected()[1]][getSelected()[0]]
         if selectedTile.containsCitizen():
-            drawMoves(win, availableTiles(*selected, selectedTile.getCitizenInTile().movementPoints))
+            drawMoves(win, availableTiles(*getSelected(), selectedTile.getCitizenInTile().movementPoints))
 
 #Change camera
 def drag(pos):
@@ -146,35 +144,8 @@ def leftClick(win, pos):
     selectTile(*worldFuncWithScreen(coordinatesToIndex, *pos))
 
 def rightClick(win, pos):
-    if selected == None: return
+    if getSelected() == None: return
     rightClickedTile = worldFuncWithScreen(coordinatesToIndex, *pos)
-    moveCitizen(*selected, *rightClickedTile)
-
-def selectTile(x, y): #screen coordinates
-    global selected
-    selected = (x, y) 
-
-#To be moved
-
-def availableTiles(x, y, movementPoints):
-    return [(x + offsetX, y + offsetY)
-           for offsetX, offsetY in [(-1, 0), (1,0), ((y%2),1), ((y%2)-1, 1), ((y%2),-1), ((y%2)-1, -1)]
-           if (
-               tiles[y + offsetY][x + offsetX].totalTileCost() != None and
-               tiles[y + offsetY][x + offsetX].totalTileCost() <= movementPoints
-           )]
-
-def moveCitizen(x, y, toX, toY):
-    selectedTile = tiles[y][x]
-    citizen = selectedTile.getCitizenInTile()
-    if citizen == None: return
-
-    if not (toX, toY) in availableTiles(x, y, citizen.movementPoints): return
-    selectedTile.popCitizenInTile()
-
-    citizen.useMovementPoints(tiles[toY][toX].totalTileCost())
-    tiles[toY][toX].tileTypes.append(citizen)
-    selectTile(toX, toY)
-
+    moveCitizen(*getSelected(), *rightClickedTile)
 
 

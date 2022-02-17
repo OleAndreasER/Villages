@@ -8,17 +8,18 @@ from library.tiles import tiles
 width = 1920
 height = 1080
 
-#topleft
 #TODO: center on player
+#Camera
 offsetX = 0
 offsetY = 0
-
 zoom = 1
 
+#Colors
 tileSelectColor = (225,229,124)
 white = (225,225,225)
 grassGreen = (3,160,98)
 black = (0,0,0)
+
 
 worldImgSize = 40
 worldTileSideLength = 30
@@ -115,10 +116,11 @@ def drawGame(win):
     if getSelected() != None:
         drawTileOutline(win, *worldToScreen(*indexToCoordinates(*getSelected())), tileSelectColor)
         selectedTile = tiles[getSelected()[1]][getSelected()[0]]
-        if selectedTile.containsCitizen():
-            drawMoves(win, availableTiles(*getSelected(), selectedTile.getCitizenInTile().movementPoints))
+        if not selectedTile.containsCitizen(): return
+        if selectedTile.getCitizenInTile().movementPoints == 0: return
+        drawMoves(win, availableTiles(*getSelected()))
 
-#Change camera
+#Input response
 def drag(pos):
     global offsetX
     global offsetY

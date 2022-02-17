@@ -143,22 +143,16 @@ def changeZoom(direction, pos):
     offsetY += beforeZoomY - afterZoomY
 
 def leftClick(win, pos):
-    selectTile(*pos)
+    selectTile(*worldFuncWithScreen(coordinatesToIndex, *pos))
 
 def rightClick(win, pos):
     if selected == None: return
-
-    selectedTile = tiles[selected[1]][selected[0]]
     rightClickedTile = worldFuncWithScreen(coordinatesToIndex, *pos)
-    citizen = selectedTile.getCitizenInTile()
-    if citizen == None: return
-
-    if rightClickedTile in availableTiles(*selected, citizen.movementPoints):
-        moveCitizen(selectedTile.popCitizenInTile(), *rightClickedTile)
+    moveCitizen(*selected, *rightClickedTile)
 
 def selectTile(x, y): #screen coordinates
     global selected
-    selected = worldFuncWithScreen(coordinatesToIndex, x, y)
+    selected = (x, y) 
 
 #To be moved
 
@@ -170,10 +164,17 @@ def availableTiles(x, y, movementPoints):
                tiles[y + offsetY][x + offsetX].totalTileCost() <= movementPoints
            )]
 
-def moveCitizen(citizen, x, y):
-    citizen.useMovementPoints(tiles[y][x].totalTileCost())
-    tiles[y][x].tileTypes.append(citizen)
-    selectTile(x, y)
+def moveCitizen(x, y, toX, toY):
+    selectedTile = tiles[y][x]
+    citizen = selectedTile.getCitizenInTile()
+    if citizen == None: return
+
+    if not (toX, toY) in availableTiles(x, y, citizen.movementPoints): return
+    selectedTile.popCitizenInTile()
+
+    citizen.useMovementPoints(tiles[toY][toX].totalTileCost())
+    tiles[toY][toX].tileTypes.append(citizen)
+    selectTile(toX, toY)
 
 
 

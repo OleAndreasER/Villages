@@ -1,6 +1,6 @@
 #!/bin/python3
 import pygame
-from library.graphics import drawGame, drag, changeZoom, rightClick, leftClick
+from library.graphics import drawWorld, drawUI, drag, changeZoom, rightClick, leftClick
 from library.gamelogic import endTurn
 
 width = 1920
@@ -47,7 +47,8 @@ def main():
                 if isDragging:
                     drag(event.rel)
 
-        drawGame(win)
+        drawWorld(win)
+        drawUI(win)
         pygame.display.update()
 
 

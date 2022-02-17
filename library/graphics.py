@@ -110,7 +110,7 @@ def drawMoves(win, tileIndecies):
         screenX, screenY = worldToScreen(*indexToCoordinates(x, y))
         pygame.gfxdraw.aacircle(win, int(screenX), int(screenY), int(7*zoom), tileSelectColor)
 
-def drawGame(win):
+def drawWorld(win):
     win.fill(grassGreen) 
     drawTiles(win, tiles)
 
@@ -122,6 +122,15 @@ def drawGame(win):
         if selectedTile.getCitizenInTile().movementPoints == 0: return
 
         drawMoves(win, availableTiles(*getSelected()))
+
+
+def drawActionBTN(win):
+    img = pygame.image.load(os.path.join("assets", "actionbtn.png")).convert_alpha()
+    win.blit(img, (width-350, height-150))
+    
+
+def drawUI(win):
+    drawActionBTN(win)
 
 #Input response
 def drag(pos):

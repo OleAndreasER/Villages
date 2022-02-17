@@ -116,7 +116,9 @@ def drawGame(win):
     drawTiles(win, tiles)
     if selected != None:
         drawTileOutline(win, *worldToScreen(*indexToCoordinates(*selected)), tileSelectColor)
-        drawMoves(win, availableTiles(*selected, 2))
+        selectedTile = tiles[selected[1]][selected[0]]
+        if selectedTile.containsCitizen():
+            drawMoves(win, availableTiles(*selected, selectedTile.getCitizenInTile().movementPoints))
 
 #Change camera
 def drag(pos):

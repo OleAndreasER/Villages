@@ -23,6 +23,10 @@ class Tile:
         self.tileTypes = [tileType for tileType in self.tileTypes if not isinstance(tileType, Citizen)]
         return citizen
 
+    def endTurn(self):
+        for tileType in self.tileTypes:
+            tileType.endTurn()
+
 
 
 

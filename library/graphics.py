@@ -113,6 +113,7 @@ def drawMoves(win, tileIndecies):
 def drawGame(win):
     win.fill(grassGreen) 
     drawTiles(win, tiles)
+
     if getSelected() != None:
         drawTileOutline(win, *worldToScreen(*indexToCoordinates(*getSelected())), tileSelectColor)
         selectedTile = tiles[getSelected()[1]][getSelected()[0]]
@@ -129,7 +130,6 @@ def drag(pos):
 
     offsetX -= pos[0]*0.5
     offsetY -= pos[1]*0.5
-    
 
 def changeZoom(direction, pos): 
     global offsetX

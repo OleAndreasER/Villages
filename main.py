@@ -1,6 +1,7 @@
 #!/bin/python3
 import pygame
 from library.graphics import drawGame, drag, changeZoom, rightClick, leftClick
+from library.gamelogic import endTurn
 
 width = 1920
 height = 1080
@@ -23,6 +24,7 @@ def main():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 exit()
+
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 pos = pygame.mouse.get_pos()
                 if event.button == 1:
@@ -32,7 +34,8 @@ def main():
                     changeZoom(1, event.pos)
                 elif event.button == 5: #wheeldown
                     changeZoom(-1, event.pos)
-                    
+                elif event.button == 2:
+                    endTurn()
                 
             elif event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 1:

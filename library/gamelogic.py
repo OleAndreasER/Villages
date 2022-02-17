@@ -6,7 +6,7 @@ selected = None
 def getSelected():
     return selected
 
-def selectTile(x, y): #screen coordinates
+def selectTile(x, y):
     global selected
     selected = (x, y) 
 
@@ -17,8 +17,9 @@ def availableTiles(x, y):
 
 def moveCitizen(x, y, toX, toY):
     selectedTile = tiles[y][x]
-    citizen = selectedTile.getCitizenInTile()
 
+    citizen = selectedTile.getCitizenInTile()
+    
     if citizen == None: return
     if citizen.movementPoints == 0: return
     if not (toX, toY) in availableTiles(x, y): return
@@ -26,5 +27,14 @@ def moveCitizen(x, y, toX, toY):
     selectedTile.popCitizenInTile()
 
     citizen.useMovementPoints(tiles[toY][toX].totalTileCost())
+
     tiles[toY][toX].tileTypes.append(citizen)
+
     selectTile(toX, toY)
+
+def endTurn():
+    for row in tiles:
+        for tile in row:
+            tile.endTurn()
+
+

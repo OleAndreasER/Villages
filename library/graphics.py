@@ -116,7 +116,7 @@ def drawGame(win):
     drawTiles(win, tiles)
     if selected != None:
         drawTileOutline(win, *worldToScreen(*indexToCoordinates(*selected)), tileSelectColor)
-        drawMoves(win, tilesInRange(*selected, 1))
+        drawMoves(win, availableTiles(*selected, 2))
 
 #Change camera
 def drag(pos):
@@ -146,6 +146,13 @@ def rightClick(win, pos):
 
 #To be moved
 
-def tilesInRange(x, y, r):
+def availableTiles(x, y, movementPoints):
     return [(x + offsetX, y + offsetY)
-     for offsetX, offsetY in [(-1, 0), (1,0), ((y%2),1), ((y%2)-1, 1), ((y%2),-1), ((y%2)-1, -1)]]
+           for offsetX, offsetY in [(-1, 0), (1,0), ((y%2),1), ((y%2)-1, 1), ((y%2),-1), ((y%2)-1, -1)]
+           if (
+               tiles[y + offsetY][x + offsetX].totalTileCost() != None and
+               tiles[y + offsetY][x + offsetX].totalTileCost() <= movementPoints
+           )]
+
+
+

@@ -116,8 +116,10 @@ def drawGame(win):
     if getSelected() != None:
         drawTileOutline(win, *worldToScreen(*indexToCoordinates(*getSelected())), tileSelectColor)
         selectedTile = tiles[getSelected()[1]][getSelected()[0]]
+
         if not selectedTile.containsCitizen(): return
         if selectedTile.getCitizenInTile().movementPoints == 0: return
+
         drawMoves(win, availableTiles(*getSelected()))
 
 #Input response

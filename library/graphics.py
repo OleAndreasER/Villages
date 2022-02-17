@@ -1,5 +1,6 @@
 #!/bin/python3
 import pygame
+import pygame.gfxdraw
 import os
 from library.tiles import tiles
 
@@ -105,11 +106,17 @@ def drawTiles(win, tileList):
                 img = pygame.image.load(os.path.join("assets", tileType.img)).convert_alpha()
                 drawImgOnTile(win, screenX, screenY, img, imgSize())
 
+def drawMoves(win, tileIndecies):
+    for x, y in tileIndecies:
+        screenX, screenY = worldToScreen(*indexToCoordinates(x, y))
+        pygame.gfxdraw.aacircle(win, int(screenX), int(screenY), int(7*zoom), tileSelectColor)
+
 def drawGame(win):
     win.fill(grassGreen) 
     drawTiles(win, tiles)
     if selected != None:
         drawTileOutline(win, *worldToScreen(*indexToCoordinates(*selected)), tileSelectColor)
+        drawMoves(win, tilesInRange(*selected, 1))
 
 #Change camera
 def drag(pos):
@@ -137,4 +144,8 @@ def rightClick(win, pos):
     global selected
     selected = worldFuncWithScreen(coordinatesToIndex, *pos)
 
-    
+#To be moved
+
+def tilesInRange(x, y, r):
+    return [(x + offsetX, y + offsetY)
+     for offsetX, offsetY in [(-1, 0), (1,0), ((y%2),1), ((y%2)-1, 1), ((y%2),-1), ((y%2)-1, -1)]]

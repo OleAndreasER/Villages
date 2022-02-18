@@ -123,20 +123,6 @@ def drawWorld(win):
 
         drawMoves(win, availableTiles(*getSelected()))
 
-#REMOVE
-def drawActionBTN(win):
-    img = pygame.image.load(os.path.join("assets", "actionbtn.png")).convert_alpha()
-    win.blit(img, (width-350, height-150))
-
-    font = pygame.font.SysFont("verdana", 50)
-    textSurface = font.render("Next Turn", True, eggWhite)
-    win.blit(textSurface, (width-320, height-138))
-
-    font = pygame.font.SysFont("verdana", 20)
-    textSurface = font.render(f"Turn {getTurn()}", True, eggWhite)
-    win.blit(textSurface, (width-320, height-60))
-    
-
 def drawUI(win):
     for ui in getUIComponents().values():
         ui.render(win)

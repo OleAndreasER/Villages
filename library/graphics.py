@@ -20,7 +20,6 @@ tileSelectColor = (225,229,124)
 white = (225,225,225)
 grassGreen = (3,160,98)
 black = (0,0,0)
-eggWhite = (239,234,231)
 
 worldImgSize = 40
 worldTileSideLength = 30
@@ -124,7 +123,7 @@ def drawWorld(win):
 
         drawMoves(win, availableTiles(*getSelected()))
 
-
+#REMOVE
 def drawActionBTN(win):
     img = pygame.image.load(os.path.join("assets", "actionbtn.png")).convert_alpha()
     win.blit(img, (width-350, height-150))

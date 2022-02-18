@@ -4,6 +4,7 @@ import pygame.gfxdraw
 import os
 from library.gamelogic import availableTiles, moveCitizen, getSelected, selectTile, actionButton, getTurn
 from library.tiles import tiles
+from library.UI import uiComponents
 
 width = 1920
 height = 1080
@@ -138,7 +139,8 @@ def drawActionBTN(win):
     
 
 def drawUI(win):
-    drawActionBTN(win)
+    for ui in uiComponents:
+        ui.render(win)
 
 #Input response
 def drag(pos):
@@ -162,9 +164,9 @@ def changeZoom(direction, pos):
     offsetY += beforeZoomY - afterZoomY
 
 def leftClick(win, pos):
-    if pos[0] > width-350 and pos[1] > height-150:
-        actionButton()
-        return
+    for ui in uiComponents:
+        isClicked = ui.click(*pos)
+        if isClicked: return
 
     selectTile(*worldFuncWithScreen(coordinatesToIndex, *pos))
 

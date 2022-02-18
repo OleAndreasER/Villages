@@ -2,6 +2,7 @@
 import pygame
 from library.graphics import drawWorld, drawUI, drag, changeZoom, rightClick, leftClick
 from library.gamelogic import endTurn
+from library.UI import makeUIComponents
 
 width = 1920
 height = 1080
@@ -17,6 +18,8 @@ def main():
     win = pygame.display.set_mode((width, height))
     pygame.display.set_caption("Villages")
     clock = pygame.time.Clock()
+
+    makeUIComponents()
 
     while True:
         clock.tick(fps)

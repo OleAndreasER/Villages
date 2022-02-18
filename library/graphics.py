@@ -2,7 +2,7 @@
 import pygame
 import pygame.gfxdraw
 import os
-from library.gamelogic import availableTiles, moveCitizen, getSelected, selectTile, endTurn
+from library.gamelogic import availableTiles, moveCitizen, getSelected, selectTile, endTurn, getTurn
 from library.tiles import tiles
 
 width = 1920
@@ -127,10 +127,14 @@ def drawWorld(win):
 def drawActionBTN(win):
     img = pygame.image.load(os.path.join("assets", "actionbtn.png")).convert_alpha()
     win.blit(img, (width-350, height-150))
-    font = pygame.font.SysFont("verdana", 50)
 
+    font = pygame.font.SysFont("verdana", 50)
     textSurface = font.render("Next Turn", False, eggWhite)
     win.blit(textSurface, (width-320, height-138))
+
+    font = pygame.font.SysFont("verdana", 20)
+    textSurface = font.render(f"Turn {getTurn()}", False, eggWhite)
+    win.blit(textSurface, (width-320, height-60))
     
 
 def drawUI(win):

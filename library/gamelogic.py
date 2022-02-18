@@ -2,6 +2,10 @@ from library.tiles import tiles
 
 #Selected tile's index
 selected = None
+turn = 1
+
+def getTurn():
+    return turn
 
 def getSelected():
     return selected
@@ -33,6 +37,8 @@ def moveCitizen(x, y, toX, toY):
     selectTile(toX, toY)
 
 def endTurn():
+    global turn
+    turn += 1
     for row in tiles:
         for tile in row:
             tile.endTurn()

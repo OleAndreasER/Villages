@@ -19,11 +19,11 @@ class UI:
         
     textSurfaces = []
 
-    def addText(self, text, fontSize, x, y):
-        font = pygame.font.SysFont("verdana", fontSize)
-        textSurface = font.render(text, True, eggWhite)
-
+    def addText(self, textSurface, x, y):
         self.textSurfaces.append((textSurface, (x, y)))
+
+    def setText(self, i, textSurface, x, y):
+        self.textSurfaces[i] = (textSurface, (x, y))
 
     def render(self, win):
         win.blit(self.img, self.imgRect)
@@ -32,23 +32,29 @@ class UI:
 
     def click(self, x, y):
         for rect, func in self.clickableRects:
-            print(rect, func)
             if rect.collidepoint((x, y)):
                 func()
                 return True
         return False
-    
 
+def textSurface(text, fontSize):
+    font = pygame.font.SysFont("verdana", fontSize)
+    return font.render(text, True, eggWhite)
 
 def getActionButton():
     actionButtonUI = UI("actionbtn.png", width-350, height-150)
     actionButtonUI.addClickableRect(actionButtonUI.imgRect, actionButton)
-    actionButtonUI.addText("Next Turn", 50, width-320, height-138)
+    actionButtonUI.addText(textSurface("Next Turn", 50), width-320, height-138)
+    actionButtonUI.addText(textSurface("Turn ", 20), width-320, height-60)
     return actionButtonUI
 
-uiComponents = []
+uiComponents = {}
 
 def makeUIComponents():
     global uiComponents
-    uiComponents.append(getActionButton())
+    uiComponents = {
+        "actionButton": getActionButton()
+    }
 
+def getUIComponents():
+    return uiComponents

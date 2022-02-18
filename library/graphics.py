@@ -2,7 +2,7 @@
 import pygame
 import pygame.gfxdraw
 import os
-from library.gamelogic import availableTiles, moveCitizen, getSelected, selectTile
+from library.gamelogic import availableTiles, moveCitizen, getSelected, selectTile, endTurn
 from library.tiles import tiles
 
 width = 1920
@@ -19,7 +19,7 @@ tileSelectColor = (225,229,124)
 white = (225,225,225)
 grassGreen = (3,160,98)
 black = (0,0,0)
-
+eggWhite = (239,234,231)
 
 worldImgSize = 40
 worldTileSideLength = 30
@@ -127,6 +127,10 @@ def drawWorld(win):
 def drawActionBTN(win):
     img = pygame.image.load(os.path.join("assets", "actionbtn.png")).convert_alpha()
     win.blit(img, (width-350, height-150))
+    font = pygame.font.SysFont("verdana", 50)
+
+    textSurface = font.render("Next Turn", False, eggWhite)
+    win.blit(textSurface, (width-320, height-138))
     
 
 def drawUI(win):
@@ -154,6 +158,10 @@ def changeZoom(direction, pos):
     offsetY += beforeZoomY - afterZoomY
 
 def leftClick(win, pos):
+    if pos[0] > width-350 and pos[1] > height-150:
+        endTurn()
+        return
+
     selectTile(*worldFuncWithScreen(coordinatesToIndex, *pos))
 
 def rightClick(win, pos):

@@ -13,6 +13,7 @@ isDragging = False
 def main():
     global isDragging
     pygame.init()
+    pygame.font.init()
     win = pygame.display.set_mode((width, height))
     pygame.display.set_caption("Villages")
     clock = pygame.time.Clock()
@@ -34,8 +35,6 @@ def main():
                     changeZoom(1, event.pos)
                 elif event.button == 5: #wheeldown
                     changeZoom(-1, event.pos)
-                elif event.button == 2:
-                    endTurn()
                 
             elif event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 1:

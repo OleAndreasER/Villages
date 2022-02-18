@@ -129,11 +129,11 @@ def drawActionBTN(win):
     win.blit(img, (width-350, height-150))
 
     font = pygame.font.SysFont("verdana", 50)
-    textSurface = font.render("Next Turn", False, eggWhite)
+    textSurface = font.render("Next Turn", True, eggWhite)
     win.blit(textSurface, (width-320, height-138))
 
     font = pygame.font.SysFont("verdana", 20)
-    textSurface = font.render(f"Turn {getTurn()}", False, eggWhite)
+    textSurface = font.render(f"Turn {getTurn()}", True, eggWhite)
     win.blit(textSurface, (width-320, height-60))
     
 

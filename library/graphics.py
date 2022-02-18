@@ -152,9 +152,15 @@ def changeZoom(direction, pos):
 def leftClick(win, pos):
     for ui in getUIComponents().values():
         isClicked = ui.click(*pos)
-        if isClicked: return
+        if isClicked:
+            ui.switchImg(1)
+            return
 
     selectTile(*worldFuncWithScreen(coordinatesToIndex, *pos))
+
+def leftClickRelease(win, pos):
+    for ui in getUIComponents().values():
+        ui.switchImg(0)
 
 def rightClick(win, pos):
     if getSelected() == None: return

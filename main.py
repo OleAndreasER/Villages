@@ -1,6 +1,6 @@
 #!/bin/python3
 import pygame
-from library.graphics import drawWorld, drawUI, drag, changeZoom, rightClick, leftClick
+from library.graphics import drawWorld, drawUI, drag, changeZoom, rightClick, leftClick, leftClickRelease
 from library.gamelogic import endTurn
 from library.UI import makeUIComponents
 
@@ -41,9 +41,10 @@ def main():
                 
             elif event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 1:
+                    leftClickRelease(win, event.pos)
                     isDragging = False 
                 elif event.button == 3:
-                    rightClick(win, pos)
+                    rightClick(win, event.pos)
 
             elif event.type == pygame.MOUSEMOTION:
                 if isDragging:

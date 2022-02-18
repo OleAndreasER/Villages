@@ -36,6 +36,12 @@ def moveCitizen(x, y, toX, toY):
 
     selectTile(toX, toY)
 
+def actionButton():
+    if len(actionQueue()) == 0:
+        endTurn()
+    else:
+        selectTile(*actionQueue()[0])
+
 def endTurn():
     global turn
     turn += 1
@@ -43,4 +49,10 @@ def endTurn():
         for tile in row:
             tile.endTurn()
 
+def actionQueue():
+    return [(x,y)
+            for x in range(len(tiles[0]))
+            for y in range(len(tiles))
+            if tiles[y][x].containsCitizen()
+            if tiles[y][x].getCitizenInTile().isInQueue()]
 

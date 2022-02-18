@@ -3,6 +3,7 @@ class Citizen:
     movementCost = None
     movementPoints = 1
     movement = 1
+    isIdle = False
 
     def useMovementPoints(self, points):
         self.movementPoints -= points
@@ -15,4 +16,6 @@ class Citizen:
     def endTurn(self):
         self.resetMovementPoints()
 
+    def isInQueue(self):
+        return self.movementPoints > 0 and not self.isIdle
 

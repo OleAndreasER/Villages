@@ -2,7 +2,7 @@
 import pygame
 import pygame.gfxdraw
 import os
-from library.gamelogic import availableTiles, moveCitizen, getSelected, selectTile, endTurn, getTurn
+from library.gamelogic import availableTiles, moveCitizen, getSelected, selectTile, actionButton, getTurn
 from library.tiles import tiles
 
 width = 1920
@@ -163,7 +163,7 @@ def changeZoom(direction, pos):
 
 def leftClick(win, pos):
     if pos[0] > width-350 and pos[1] > height-150:
-        endTurn()
+        actionButton()
         return
 
     selectTile(*worldFuncWithScreen(coordinatesToIndex, *pos))

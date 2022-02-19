@@ -60,6 +60,8 @@ def getActionButton():
 def getCitizenMenu():
     citizenMenuUI = UI("citizenmenu.png", 0, height-400)
     citizenMenuUI.addText(textSurface("Action points: ", 15), 7, height-370)
+    citizenMenuUI.addText(textSurface("Health points: ", 15), 7, height-350)
+    citizenMenuUI.addText(textSurface("Hunger status: ", 15), 7, height-330)
     return citizenMenuUI
 
 uiComponents = {}

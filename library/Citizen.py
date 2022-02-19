@@ -8,11 +8,6 @@ class Citizen:
     movementPoints = 1
     movement = 1
 
-    hp = 20
-    totalHp = 20
-
-    isIdle = False
-
     def useMovementPoints(self, points):
         self.movementPoints -= points
         if self.movementPoints < 0:
@@ -20,9 +15,26 @@ class Citizen:
 
     def resetMovementPoints(self):
         self.movementPoints = self.movement
+    
+    hp = 20
+    totalHp = 20
+
+    hungerPoints = 30
+
+    def hungerStatus(self):
+        if self.hungerPoints > 20: return "Satiated"
+        if self.hungerPoints > 10: return "Hungry"
+        return "Starving"
+
+    def increaseHunger(self):
+        self.hungerPoints -= 1
+
+    isIdle = False
+
 
     def endTurn(self):
         self.resetMovementPoints()
+        self.increaseHunger()
 
     def isInQueue(self):
         return self.movementPoints > 0 and not self.isIdle

@@ -134,6 +134,8 @@ def drawUI(win):
         if selectedTile.containsCitizen():
             citizen = selectedTile.getCitizenInTile()
             getUIComponents()["citizenMenu"].setText(0, textSurface(f"Action points: {citizen.movementPoints}/{citizen.movement}", 15), 7, height-370)
+            getUIComponents()["citizenMenu"].setText(1, textSurface(f"Health points: {citizen.hp}/{citizen.totalHp}", 15), 7, height-350)
+            getUIComponents()["citizenMenu"].setText(2, textSurface(f"Hunger status: {citizen.hungerPoints} ({citizen.hungerStatus()})", 15), 7, height-330)
 
     #Render UI
     for ui in getUIComponents().values():

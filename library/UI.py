@@ -12,13 +12,13 @@ class UI:
         self.img = pygame.image.load(os.path.join("assets", img)).convert_alpha()
         self.imgVersions = [self.img]
         self.imgRect = self.img.get_rect(topleft = (x, y))
+        self.textSurfaces = []
+        self.clickableRects = []
 
-    clickableRects = []
+    isHidden = False
 
     def addClickableRect(self, rect, func):
         self.clickableRects.append((rect, func))
-        
-    textSurfaces = []
 
     def addText(self, textSurface, x, y):
         self.textSurfaces.append((textSurface, (x, y)))
@@ -33,6 +33,7 @@ class UI:
         self.textSurfaces[i] = (textSurface, (x, y))
 
     def render(self, win):
+        if self.isHidden: return
         win.blit(self.img, self.imgRect)
         for textSurface, pos in self.textSurfaces:
             win.blit(textSurface, pos)
@@ -56,12 +57,18 @@ def getActionButton():
     actionButtonUI.addText(textSurface("Turn ", 20), width-320, height-60)
     return actionButtonUI
 
+def getCitizenMenu():
+    citizenMenuUI = UI("citizenmenu.png", 0, height-400)
+    citizenMenuUI.addText(textSurface("Action points: ", 15), 7, height-370)
+    return citizenMenuUI
+
 uiComponents = {}
 
 def makeUIComponents():
     global uiComponents
     uiComponents = {
-        "actionButton": getActionButton()
+        "actionButton": getActionButton(),
+        "citizenMenu": getCitizenMenu()
     }
 
 def getUIComponents():

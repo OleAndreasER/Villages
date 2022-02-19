@@ -3,9 +3,14 @@ import os
 
 class Citizen:
     img = pygame.image.load(os.path.join("assets", "citizen.png"))
-    movementCost = None
+
+    movementCost = None #impassable
     movementPoints = 1
     movement = 1
+
+    hp = 20
+    totalHp = 20
+
     isIdle = False
 
     def useMovementPoints(self, points):

@@ -123,9 +123,22 @@ def drawWorld(win):
         drawMoves(win, availableTiles(*getSelected()))
 
 def drawUI(win):
+    #Update UI
+    isHidden = getSelected() == None or not tiles[getSelected()[1]][getSelected()[0]].containsCitizen()
+    getUIComponents()["citizenMenu"].isHidden = isHidden
+
+    getUIComponents()["actionButton"].setText(1, textSurface(f"Turn {getTurn()}", 20), width-320, height-60)
+    
+    if getSelected() != None:
+        selectedTile = tiles[getSelected()[1]][getSelected()[0]]
+        if selectedTile.containsCitizen():
+            citizen = selectedTile.getCitizenInTile()
+            getUIComponents()["citizenMenu"].setText(0, textSurface(f"Action points: {citizen.movementPoints}/{citizen.movement}", 15), 7, height-370)
+
+    #Render UI
     for ui in getUIComponents().values():
         ui.render(win)
-    getUIComponents()["actionButton"].setText(1, textSurface(f"Turn {getTurn()}", 20), width-320, height-60)
+
 
 #Input response
 def drag(pos):

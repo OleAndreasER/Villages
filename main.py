@@ -3,11 +3,7 @@ import pygame
 from library.graphics import drawWorld, drawUI, drag, changeZoom, rightClick, leftClick, leftClickRelease
 from library.gamelogic import endTurn
 from library.UI import makeUIComponents
-
-width = 1920
-height = 1080
-
-fps = 60
+from library.settings import width, height, fps
 
 isDragging = False
 

@@ -5,21 +5,13 @@ import os
 from library.gamelogic import availableTiles, moveCitizen, getSelected, selectTile, actionButton, getTurn
 from library.tiles import tiles
 from library.UI import getUIComponents, textSurface
-
-width = 1920
-height = 1080
+from library.settings import width, height, tileSelectColor, white, grassGreen, black
 
 #TODO: center on player
 #Camera
 offsetX = 0
 offsetY = 0
 zoom = 1
-
-#Colors
-tileSelectColor = (225,229,124)
-white = (225,225,225)
-grassGreen = (3,90,35)
-black = (0,0,0)
 
 worldImgSize = 40
 worldTileSideLength = 30

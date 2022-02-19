@@ -1,11 +1,7 @@
 import pygame
 import os
 from library.gamelogic import actionButton, idle
-
-width = 1920
-height = 1080
-
-eggWhite = (239,234,231)
+from library.settings import width, height, eggWhite
 
 class UI:
     def __init__(self, img, x, y):

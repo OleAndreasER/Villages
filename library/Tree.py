@@ -1,6 +1,8 @@
+import pygame
+import os
 
 class Tree:
-    img = "tree.png"
+    img = pygame.image.load(os.path.join("assets", "tree.png"))
     movementCost = 1
 
     def endTurn(self):

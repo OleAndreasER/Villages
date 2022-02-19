@@ -1,5 +1,8 @@
+import pygame
+import os
+
 class Citizen:
-    img = "citizen.png"
+    img = pygame.image.load(os.path.join("assets", "citizen.png"))
     movementCost = None
     movementPoints = 1
     movement = 1

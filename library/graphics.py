@@ -18,7 +18,7 @@ zoom = 1
 #Colors
 tileSelectColor = (225,229,124)
 white = (225,225,225)
-grassGreen = (3,160,98)
+grassGreen = (3,90,35)
 black = (0,0,0)
 
 worldImgSize = 40
@@ -102,8 +102,7 @@ def drawTiles(win, tileList):
             screenX, screenY = worldToScreen(worldX, worldY)
             drawTileOutline(win, screenX, screenY)
             for tileType in tile.tileTypes:
-                img = pygame.image.load(os.path.join("assets", tileType.img)).convert_alpha()
-                drawImgOnTile(win, screenX, screenY, img, imgSize())
+                drawImgOnTile(win, screenX, screenY, tileType.img.convert_alpha(), imgSize())
 
 def drawMoves(win, tileIndecies):
     for x, y in tileIndecies:

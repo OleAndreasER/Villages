@@ -1,6 +1,8 @@
+import pygame
+import os
 
 class Stone:
-    img = "stone.png"
+    img = pygame.image.load(os.path.join("assets", "stone.png"))
     movementCost = 2
 
     def endTurn(self):

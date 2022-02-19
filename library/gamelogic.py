@@ -36,11 +36,22 @@ def moveCitizen(x, y, toX, toY):
 
     selectTile(toX, toY)
 
+def nextSelection():
+    return None if len(actionQueue()) == 0 else actionQueue()[0]
+
 def actionButton():
     if len(actionQueue()) == 0:
         endTurn()
     else:
         selectTile(*actionQueue()[0])
+
+def idle():
+    global selected
+    citizen = tiles[selected[1]][selected[0]].getCitizenInTile()
+    citizen.isIdle = True
+    selected = nextSelection()
+    
+    
 
 def endTurn():
     global turn

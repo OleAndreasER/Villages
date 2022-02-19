@@ -31,10 +31,10 @@ class Citizen:
 
     isIdle = False
 
-
     def endTurn(self):
         self.resetMovementPoints()
         self.increaseHunger()
+        self.isIdle = False
 
     def isInQueue(self):
         return self.movementPoints > 0 and not self.isIdle

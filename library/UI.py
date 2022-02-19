@@ -1,6 +1,6 @@
 import pygame
 import os
-from library.gamelogic import actionButton
+from library.gamelogic import actionButton, idle
 
 width = 1920
 height = 1080
@@ -58,11 +58,21 @@ def getActionButton():
     return actionButtonUI
 
 def getCitizenMenu():
-    citizenMenuUI = UI("citizenmenu.png", 0, height-400)
+    citizenMenuUI = UI("citizenmenu.png", 0, height-421)
+    
+    #Skip turn
+    citizenMenuUI.addClickableRect(pygame.Rect(193, height-421+361, 39, 39), idle) 
+
+    citizenMenuUI.addClickableRect(citizenMenuUI.imgRect, doNothing)
+    citizenMenuUI.addImg("citizenmenu.png") #Make a pressed version
+
     citizenMenuUI.addText(textSurface("Action points: ", 15), 7, height-370)
     citizenMenuUI.addText(textSurface("Health points: ", 15), 7, height-350)
     citizenMenuUI.addText(textSurface("Hunger status: ", 15), 7, height-330)
     return citizenMenuUI
+
+def doNothing():
+    return
 
 uiComponents = {}
 

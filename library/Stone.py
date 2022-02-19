@@ -7,3 +7,6 @@ class Stone:
 
     def endTurn(self):
         return
+
+    def info(self):
+        return "Stone"

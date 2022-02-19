@@ -122,12 +122,16 @@ def drawWorld(win):
 
         drawMoves(win, availableTiles(*getSelected()))
 
-def drawUI(win):
+def drawUI(win, x, y):
     #Update UI
     isHidden = getSelected() == None or not tiles[getSelected()[1]][getSelected()[0]].containsCitizen()
     getUIComponents()["citizenMenu"].isHidden = isHidden
 
     getUIComponents()["actionButton"].setText(1, textSurface(f"Turn {getTurn()}", 20), width-320, height-60)
+
+    hoveredX, hoveredY = worldFuncWithScreen(coordinatesToIndex, x, y)
+    hoveredTile = tiles[hoveredY][hoveredX]
+    getUIComponents()["actionButton"].setText(2, textSurface(hoveredTile.info(), 20), width-100, height-60)
     
     if getSelected() != None:
         selectedTile = tiles[getSelected()[1]][getSelected()[0]]

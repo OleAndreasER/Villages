@@ -7,3 +7,6 @@ class Tree:
 
     def endTurn(self):
         return
+
+    def info(self):
+        return "Tree"

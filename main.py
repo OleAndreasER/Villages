@@ -23,14 +23,14 @@ def main():
 
     while True:
         clock.tick(fps)
-
+        pos = None
         for event in pygame.event.get():
+
             if event.type == pygame.QUIT:
                 pygame.quit()
                 exit()
 
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                pos = pygame.mouse.get_pos()
                 if event.button == 1:
                     isDragging = True
                     leftClick(win, event.pos)
@@ -50,8 +50,10 @@ def main():
                 if isDragging:
                     drag(event.rel)
 
+        pos = pygame.mouse.get_pos()
+
         drawWorld(win)
-        drawUI(win)
+        drawUI(win, *pos)
         pygame.display.update()
 
 

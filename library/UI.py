@@ -53,8 +53,10 @@ def getActionButton():
     actionButtonUI = UI("actionbtn.png", width-350, height-150)
     actionButtonUI.addClickableRect(actionButtonUI.imgRect, actionButton)
     actionButtonUI.addImg("actionbtnpressed.png")
+
     actionButtonUI.addText(textSurface("Next Turn", 50), width-320, height-138)
     actionButtonUI.addText(textSurface("Turn ", 20), width-320, height-60)
+    actionButtonUI.addText(textSurface("", 20), width-100, height-60)
     return actionButtonUI
 
 def getCitizenMenu():

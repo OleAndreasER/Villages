@@ -27,6 +27,10 @@ class Tile:
         for tileType in self.tileTypes:
             tileType.endTurn()
 
+    def info(self):
+        tile = [tileType for tileType in self.tileTypes if not isinstance(tileType, Citizen)]
+        if len(tile) == 0: return ""
+        return tile[0].info()
 
 
 

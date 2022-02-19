@@ -50,8 +50,6 @@ def idle():
     citizen = tiles[selected[1]][selected[0]].getCitizenInTile()
     citizen.isIdle = True
     selected = nextSelection()
-    
-    
 
 def endTurn():
     global turn

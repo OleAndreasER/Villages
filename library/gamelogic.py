@@ -16,6 +16,11 @@ def selectTile(x, y):
     global selected
     selected = (x, y) 
 
+def isCitizenSelected():
+    if selected == None: return False
+    if not tiles[selected[1]][selected[0]].containsCitizen(): return False
+    return True
+
 def availableTiles(x, y):
     return [(x + offsetX, y + offsetY)
            for offsetX, offsetY in [(-1, 0), (1,0), ((y%2),1), ((y%2)-1, 1), ((y%2),-1), ((y%2)-1, -1)]
@@ -49,6 +54,7 @@ def actionButton():
 
 def idle():
     global selected
+    if not isCitizenSelected(): return
     citizen = tiles[selected[1]][selected[0]].getCitizenInTile()
     citizen.isIdle = True
     selected = nextSelection()
@@ -68,6 +74,7 @@ def actionQueue():
             if tiles[y][x].getCitizenInTile().isInQueue()]
 
 def citizenAction():
+    if not isCitizenSelected(): return
     tile = tiles[selected[1]][selected[0]]
     if (not tile.containsCitizen()
         or not tile.containsNonCitizen()

@@ -14,3 +14,14 @@ tileSelectColor = (225,229,124)
 white = (225,225,225)
 grassGreen = (3,90,35)
 black = (0,0,0)
+
+#Keybinds
+import pygame
+from library.gamelogic import actionButton, idle, citizenAction
+
+keybinds = [
+    (pygame.K_RETURN, actionButton),
+    (pygame.K_SPACE, idle),
+    (pygame.K_a, citizenAction)
+]
+#http://www.pygame.org/docs/ref/key.html

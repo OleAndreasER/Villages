@@ -1,9 +1,9 @@
 #!/bin/python3
 import pygame
 from library.graphics import drawWorld, drawUI, drag, changeZoom, rightClick, leftClick, leftClickRelease
-from library.gamelogic import endTurn
+from library.gamelogic import actionButton
 from library.UI import makeUIComponents
-from library.settings import width, height, fps
+from library.settings import width, height, fps, keybinds
 
 isDragging = False
 
@@ -45,6 +45,12 @@ def main():
             elif event.type == pygame.MOUSEMOTION:
                 if isDragging:
                     drag(event.rel)
+
+            elif event.type == pygame.KEYDOWN:
+                for key, func in keybinds:
+                    if event.key == key:
+                        func()
+
 
         pos = pygame.mouse.get_pos()
 

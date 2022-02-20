@@ -1,5 +1,7 @@
 import pygame
 import os
+from library.Player import currentPlayer
+from library.Tree import Tree
 
 class Citizen:
     img = pygame.image.load(os.path.join("assets", "citizen.png"))
@@ -7,6 +9,7 @@ class Citizen:
     movementCost = None #impassable
     movementPoints = 1
     movement = 1
+    owner = currentPlayer
 
     def useMovementPoints(self, points):
         self.movementPoints -= points
@@ -38,4 +41,13 @@ class Citizen:
 
     def isInQueue(self):
         return self.movementPoints > 0 and not self.isIdle
+
+    def actOnTile(self, tile):
+        if isinstance(tile, Tree):
+            self.chopWood(tile)
+
+    def chopWood(self, tree):
+        tree.getChopped(1)
+        self.owner.wood += 1
+        self.useMovementPoints(10)
 

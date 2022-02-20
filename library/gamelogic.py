@@ -67,3 +67,11 @@ def actionQueue():
             if tiles[y][x].containsCitizen()
             if tiles[y][x].getCitizenInTile().isInQueue()]
 
+def citizenAction():
+    tile = tiles[selected[1]][selected[0]]
+    if (not tile.containsCitizen()
+        or not tile.containsNonCitizen()
+        or tile.getCitizenInTile().movementPoints == 0):
+        return
+    tile.getCitizenInTile().actOnTile(tile.getNonCitizen())
+

@@ -11,10 +11,19 @@ class Tile:
     def containsCitizen(self):
         return any(isinstance(tileType, Citizen) for tileType in self.tileTypes)
 
+    def containsNonCitizen(self):
+        return any(not isinstance(tileType, Citizen) for tileType in self.tileTypes)
+
     def getCitizenInTile(self):
         if not self.containsCitizen(): return None
         for tileType in self.tileTypes:
             if isinstance(tileType, Citizen):
+                return tileType
+
+    def getNonCitizen(self):
+        if not self.containsNonCitizen(): return None
+        for tileType in self.tileTypes:
+            if not isinstance(tileType, Citizen):
                 return tileType
 
     def popCitizenInTile(self):

@@ -55,14 +55,20 @@ def makeActionButton():
     actionButtonUI.addText(textSurface("", 20), width-100, height-60)
     return actionButtonUI
 
+def makeResourceBar():
+    resourceBarUI = UI("resourcebar.png", 0, 0)
+    resourceBarUI.addClickableRect(resourceBarUI.imgRect, doNothing)
+    resourceBarUI.addImg("resourcebar.png")
+
+    resourceBarUI.addText(textSurface("0", 13), 65, 0)
+    resourceBarUI.addText(textSurface("0", 13), 195, 0)
+    return resourceBarUI
+
 def makeCitizenMenu():
     citizenMenuUI = UI("citizenmenu.png", 0, height-421)
     
     #Skip turn
     citizenMenuUI.addClickableRect(pygame.Rect(193, height-421+361, 39, 39), idle) 
-    #Citizen action
-    citizenMenuUI.addClickableRect(pygame.Rect(193, height-421+100, 39, 39), citizenAction)
-
     citizenMenuUI.addClickableRect(citizenMenuUI.imgRect, doNothing)
     citizenMenuUI.addImg("citizenmenu.png") #Make a pressed version
 
@@ -72,11 +78,13 @@ def makeCitizenMenu():
     citizenMenuUI.addText(textSurface("Hunger status: ", 15), 7, height-330)
     return citizenMenuUI
 
-def makeResourceBar():
-    resourceBarUI = UI("resourcebar.png", 0, 0)
-    resourceBarUI.addText(textSurface("0", 13), 65, 0)
-    resourceBarUI.addText(textSurface("0", 13), 195, 0)
-    return resourceBarUI
+def makeCitizenActionButton():
+    citizenActionButtonUI = UI("citizenactionbutton.png", 14, height-421+361)
+    citizenActionButtonUI.addClickableRect(citizenActionButtonUI.imgRect, citizenAction)
+    citizenActionButtonUI.addImg("citizenactionbutton.png")
+    citizenActionButtonUI.addText(textSurface("Chop wood", 15), 24, height-421+370)
+
+    return citizenActionButtonUI
 
 uiComponents = {}
 
@@ -84,8 +92,9 @@ def makeUIComponents():
     global uiComponents
     uiComponents = {
         "actionButton": makeActionButton(),
+        "resourceBar": makeResourceBar(),
         "citizenMenu": makeCitizenMenu(),
-        "resourceBar": makeResourceBar()
+        "citizenActionButton": makeCitizenActionButton()
     }
 
 def getUIComponents():

@@ -120,6 +120,9 @@ def drawUI(win, x, y):
     isHidden = getSelected() == None or not tiles[getSelected()[1]][getSelected()[0]].containsCitizen()
     getUIComponents()["citizenMenu"].isHidden = isHidden
 
+    actionButtonIsHidden = isHidden or not tiles[getSelected()[1]][getSelected()[0]].containsNonCitizen()
+    getUIComponents()["citizenActionButton"].isHidden = actionButtonIsHidden
+
     getUIComponents()["actionButton"].setText(1, textSurface(f"Turn {getTurn()}", 20), width-320, height-60)
 
     hoveredX, hoveredY = worldFuncWithScreen(coordinatesToIndex, x, y)
@@ -165,7 +168,9 @@ def changeZoom(direction, pos):
     offsetY += beforeZoomY - afterZoomY
 
 def leftClick(win, pos):
-    for ui in getUIComponents().values():
+    for ui in reversed(getUIComponents().values()):
+        #Reverse so that the clickable areas are checked in reverse order of
+        #rendering order.
         isClicked = ui.click(*pos)
         if isClicked:
             ui.switchImg(1)

@@ -71,6 +71,8 @@ def makeCitizenMenu():
 
 def makeResourceBar():
     resourceBarUI = UI("resourcebar.png", 0, 0)
+    resourceBarUI.addText(textSurface("0", 13), 65, 0)
+    resourceBarUI.addText(textSurface("0", 13), 195, 0)
     return resourceBarUI
 
 uiComponents = {}

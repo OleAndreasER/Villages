@@ -45,7 +45,7 @@ def textSurface(text, fontSize):
     font = pygame.font.SysFont("verdana", fontSize)
     return font.render(text, True, eggWhite)
 
-def getActionButton():
+def makeActionButton():
     actionButtonUI = UI("actionbtn.png", width-350, height-150)
     actionButtonUI.addClickableRect(actionButtonUI.imgRect, actionButton)
     actionButtonUI.addImg("actionbtnpressed.png")
@@ -55,7 +55,7 @@ def getActionButton():
     actionButtonUI.addText(textSurface("", 20), width-100, height-60)
     return actionButtonUI
 
-def getCitizenMenu():
+def makeCitizenMenu():
     citizenMenuUI = UI("citizenmenu.png", 0, height-421)
     
     #Skip turn
@@ -69,17 +69,23 @@ def getCitizenMenu():
     citizenMenuUI.addText(textSurface("Hunger status: ", 15), 7, height-330)
     return citizenMenuUI
 
-def doNothing():
-    return
+def makeResourceBar():
+    resourceBarUI = UI("resourcebar.png", 0, 0)
+    return resourceBarUI
 
 uiComponents = {}
 
 def makeUIComponents():
     global uiComponents
     uiComponents = {
-        "actionButton": getActionButton(),
-        "citizenMenu": getCitizenMenu()
+        "actionButton": makeActionButton(),
+        "citizenMenu": makeCitizenMenu(),
+        "resourceBar": makeResourceBar()
     }
 
 def getUIComponents():
     return uiComponents
+
+def doNothing():
+    return
+

@@ -1,5 +1,7 @@
 from library.tiles import tiles
 
+#TODO: spamming crashes
+
 #Selected tile's index
 selected = None
 turn = 1

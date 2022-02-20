@@ -6,6 +6,7 @@ from library.gamelogic import availableTiles, moveCitizen, getSelected, selectTi
 from library.tiles import tiles
 from library.UI import getUIComponents, textSurface
 from library.settings import width, height, tileSelectColor, white, grassGreen, black
+from library.Player import Player
 
 #TODO: center on player
 #Camera

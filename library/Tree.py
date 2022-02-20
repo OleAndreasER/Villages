@@ -1,6 +1,7 @@
 import pygame
 import os
 
+
 class Tree:
     img = pygame.image.load(os.path.join("assets", "tree.png"))
     movementCost = 1
@@ -16,4 +17,5 @@ class Tree:
         if self.woodLeft > 0:
             self.woodLeft -= amount
         else:
-            del self
+            from library.gamelogic import removeFromTiles
+            removeFromTiles(self)

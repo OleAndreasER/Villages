@@ -75,3 +75,10 @@ def citizenAction():
         return
     tile.getCitizenInTile().actOnTile(tile.getNonCitizen())
 
+def removeFromTiles(obj):
+    for row in tiles:
+        for tile in row:
+            tile.tileTypes = [tileType
+                              for tileType in tile.tileTypes
+                              if not tileType is obj]
+

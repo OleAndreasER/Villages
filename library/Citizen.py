@@ -2,6 +2,7 @@ import pygame
 import os
 from library.Player import currentPlayer
 from library.Tree import Tree
+from library.Stone import Stone
 
 class Citizen:
     img = pygame.image.load(os.path.join("assets", "citizen.png"))
@@ -10,6 +11,7 @@ class Citizen:
     movementPoints = 1
     movement = 1
     owner = currentPlayer
+    knownTechnologies = ["mining"]
 
     def useMovementPoints(self, points):
         self.movementPoints -= points
@@ -45,9 +47,17 @@ class Citizen:
     def actOnTile(self, tile):
         if isinstance(tile, Tree):
             self.chopWood(tile)
+        if isinstance(tile, Stone) and "mining" in self.knownTechnologies:
+            self.mine(tile)
 
     def chopWood(self, tree):
         tree.getChopped(1)
         self.owner.wood += 1
+        self.useMovementPoints(10)
+
+    def mine(self, stone):
+        resource = stone.getResourceType()
+        if resource == "stone":
+            self.owner.stone += 1
         self.useMovementPoints(10)
 

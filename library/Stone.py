@@ -10,3 +10,9 @@ class Stone:
 
     def info(self):
         return "Stone"
+
+    def getResourceType(self):
+        return "stone" #Could be coal, iron etc later on
+
+
+

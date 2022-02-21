@@ -2,7 +2,7 @@
 import pygame
 import pygame.gfxdraw
 import os
-from library.gamelogic import availableTiles, moveCitizen, getSelected, selectTile, actionButton, getTurn
+from library.gamelogic import availableTiles, moveCitizen, getSelected, selectTile, actionButton, actionQueue, getTurn
 from library.tiles import tiles
 from library.UI import getUIComponents, textSurface
 from library.settings import width, height, tileSelectColor, white, grassGreen, black
@@ -140,6 +140,9 @@ def drawUI(win, x, y):
     getUIComponents()["resourceBar"].setText(0, textSurface(str(currentPlayer.wood), 13), 65, 0) 
     getUIComponents()["resourceBar"].setText(1, textSurface(str(currentPlayer.stone), 13), 195, 0) 
 
+
+    actionButtonText = "Next Turn" if len(actionQueue()) == 0 else "Next Citizen"
+    getUIComponents()["actionButton"].setText(0, textSurface(actionButtonText, 50), width-320, height-138)
 
     #Render UI
     for ui in getUIComponents().values():

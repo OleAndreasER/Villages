@@ -82,7 +82,7 @@ def makeCitizenActionButton():
     citizenActionButtonUI = UI("citizenactionbutton.png", 14, height-421+361)
     citizenActionButtonUI.addClickableRect(citizenActionButtonUI.imgRect, citizenAction)
     citizenActionButtonUI.addImg("citizenactionbutton.png")
-    citizenActionButtonUI.addText(textSurface("Chop wood", 15), 24, height-421+370)
+    citizenActionButtonUI.addText(textSurface("", 15), 24, height-421+370)
 
     return citizenActionButtonUI
 

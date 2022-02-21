@@ -136,6 +136,10 @@ def drawUI(win, x, y):
             getUIComponents()["citizenMenu"].setText(0, textSurface(f"Action points: {citizen.movementPoints}/{citizen.movement}", 15), 7, height-370)
             getUIComponents()["citizenMenu"].setText(1, textSurface(f"Health points: {citizen.hp}/{citizen.totalHp}", 15), 7, height-350)
             getUIComponents()["citizenMenu"].setText(2, textSurface(f"Hunger status: {citizen.hungerPoints} ({citizen.hungerStatus()})", 15), 7, height-330)
+        if selectedTile.containsNonCitizen():
+            tileType = selectedTile.getNonCitizen()
+            getUIComponents()["citizenActionButton"].setText(0, textSurface(tileType.actionText, 15), 24, height-421+370)
+
 
     getUIComponents()["resourceBar"].setText(0, textSurface(str(currentPlayer.wood), 13), 65, 0) 
     getUIComponents()["resourceBar"].setText(1, textSurface(str(currentPlayer.stone), 13), 195, 0) 

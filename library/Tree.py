@@ -6,6 +6,7 @@ class Tree:
     img = pygame.image.load(os.path.join("assets", "tree.png"))
     movementCost = 1
     woodLeft = 4
+    actionText = "Chop wood"
 
     def endTurn(self):
         return

@@ -11,7 +11,7 @@ class Citizen:
     movementPoints = 1
     movement = 1
     owner = currentPlayer
-    knownTechnologies = ["mining"]
+    knownTechnologies = ["mining", "replanting"]
 
     def useMovementPoints(self, points):
         self.movementPoints -= points
@@ -51,7 +51,7 @@ class Citizen:
             self.mine(tile)
 
     def chopWood(self, tree):
-        tree.getChopped(1)
+        tree.getChopped(1, "replanting" in self.knownTechnologies)
         self.owner.wood += 1
         self.useMovementPoints(10)
 

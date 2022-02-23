@@ -78,6 +78,7 @@ def citizenAction():
         or not tile.containsNonCitizen()
         or tile.getCitizenInTile().movementPoints == 0):
         return
+    if (tile.getNonCitizen().actionText == None): return
     tile.getCitizenInTile().actOnTile(tile.getNonCitizen())
 
 def removeFromTiles(obj):

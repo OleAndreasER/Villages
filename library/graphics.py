@@ -138,6 +138,7 @@ def drawUI(win, x, y):
             getUIComponents()["citizenMenu"].setText(2, textSurface(f"Hunger status: {citizen.hungerPoints} ({citizen.hungerStatus()})", 15), 7, height-330)
         if selectedTile.containsNonCitizen():
             tileType = selectedTile.getNonCitizen()
+            getUIComponents()["citizenActionButton"].isHidden = tileType.actionText == None
             getUIComponents()["citizenActionButton"].setText(0, textSurface(tileType.actionText, 15), 24, height-421+370)
 
 

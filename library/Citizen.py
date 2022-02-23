@@ -51,8 +51,8 @@ class Citizen:
             self.mine(tile)
 
     def chopWood(self, tree):
-        tree.getChopped(1, "replanting" in self.knownTechnologies)
-        self.owner.wood += 1
+        wood = tree.getChopped(1, "replanting" in self.knownTechnologies)
+        self.owner.wood += wood
         self.useMovementPoints(10)
 
     def mine(self, stone):

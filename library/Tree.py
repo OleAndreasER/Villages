@@ -1,7 +1,6 @@
 import pygame
 import os
 
-
 class Tree:
 
     treeImg = pygame.image.load(os.path.join("assets", "tree.png"))

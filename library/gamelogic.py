@@ -81,10 +81,10 @@ def citizenAction():
     if (tile.getNonCitizen().actionText == None): return
     tile.getCitizenInTile().actOnTile(tile.getNonCitizen())
 
-def removeFromTiles(obj):
+def removeFromTiles(targetTileType):
     for row in tiles:
         for tile in row:
             tile.tileTypes = [tileType
                               for tileType in tile.tileTypes
-                              if not tileType is obj]
+                              if not tileType is targetTileType]
 

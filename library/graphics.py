@@ -123,31 +123,31 @@ def drawUI(win, x, y):
     actionButtonIsHidden = isHidden or not tiles[getSelected()[1]][getSelected()[0]].containsNonCitizen()
     getUIComponents()["citizenActionButton"].isHidden = actionButtonIsHidden
 
-    getUIComponents()["actionButton"].setText(1, textSurface(f"Turn {getTurn()}", 20), width-320, height-60)
+    getUIComponents()["actionButton"].setText(1, f"Turn {getTurn()}")
 
     hoveredX, hoveredY = worldFuncWithScreen(coordinatesToIndex, x, y)
     hoveredTile = tiles[hoveredY][hoveredX]
-    getUIComponents()["actionButton"].setText(2, textSurface(hoveredTile.info(), 20), width-100, height-60)
+    getUIComponents()["actionButton"].setText(2, hoveredTile.info())
     
     if getSelected() != None:
         selectedTile = tiles[getSelected()[1]][getSelected()[0]]
         if selectedTile.containsCitizen():
             citizen = selectedTile.getCitizenInTile()
-            getUIComponents()["citizenMenu"].setText(0, textSurface(f"Action points: {citizen.movementPoints}/{citizen.movement}", 15), 7, height-370)
-            getUIComponents()["citizenMenu"].setText(1, textSurface(f"Health points: {citizen.hp}/{citizen.totalHp}", 15), 7, height-350)
-            getUIComponents()["citizenMenu"].setText(2, textSurface(f"Hunger status: {citizen.hungerPoints} ({citizen.hungerStatus()})", 15), 7, height-330)
+            getUIComponents()["citizenMenu"].setText(0, f"Action points: {citizen.movementPoints}/{citizen.movement}")
+            getUIComponents()["citizenMenu"].setText(1, f"Health points: {citizen.hp}/{citizen.totalHp}")
+            getUIComponents()["citizenMenu"].setText(2, f"Hunger status: {citizen.hungerPoints} ({citizen.hungerStatus()})")
         if selectedTile.containsNonCitizen():
             tileType = selectedTile.getNonCitizen()
             getUIComponents()["citizenActionButton"].isHidden = tileType.actionText == None
-            getUIComponents()["citizenActionButton"].setText(0, textSurface(tileType.actionText, 15), 24, height-421+370)
+            getUIComponents()["citizenActionButton"].setText(0, tileType.actionText)
 
 
-    getUIComponents()["resourceBar"].setText(0, textSurface(str(currentPlayer.wood), 13), 65, 0) 
-    getUIComponents()["resourceBar"].setText(1, textSurface(str(currentPlayer.stone), 13), 195, 0) 
+    getUIComponents()["resourceBar"].setText(0, str(currentPlayer.wood))
+    getUIComponents()["resourceBar"].setText(1, str(currentPlayer.stone))
 
 
     actionButtonText = "Next Turn" if len(actionQueue()) == 0 else "Next Citizen"
-    getUIComponents()["actionButton"].setText(0, textSurface(actionButtonText, 50), width-320, height-138)
+    getUIComponents()["actionButton"].setText(0, actionButtonText)
 
     #Render UI
     for ui in getUIComponents().values():

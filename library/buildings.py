@@ -10,7 +10,7 @@ class House:
         return
 
     def info(self):
-        "House"
+        return "House"
 
 
 

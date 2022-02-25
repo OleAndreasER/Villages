@@ -57,6 +57,7 @@ def renderText(win, text):
         
     win.blit(surface, rect)
 
+#UI Components
 def makeActionButton():
     actionButtonUI = UI("actionbtn.png", width-350, height-150)
     actionButtonUI.addClickableRect(actionButtonUI.imgRect, actionButton)
@@ -66,6 +67,12 @@ def makeActionButton():
     actionButtonUI.addText("Turn ", 20, (width-320, height-60))
     actionButtonUI.addText("", 20, (width-30, height-60), "topRight")
     return actionButtonUI
+
+def makeIdleButton():
+    idleButtonUI = UI("idlebutton.png", 193, height-421+361)
+    idleButtonUI.addClickableRect(pygame.Rect(193, height-421+361, 39, 39), idle) 
+    idleButtonUI.addImg("idlebutton.png")
+    return idleButtonUI
 
 def makeResourceBar():
     resourceBarUI = UI("resourcebar.png", 0, 0)
@@ -78,13 +85,7 @@ def makeResourceBar():
 
 def makeCitizenMenu():
     citizenMenuUI = UI("citizenmenu.png", 0, height-421)
-    
-    #Skip turn
-    citizenMenuUI.addClickableRect(pygame.Rect(193, height-421+361, 39, 39), idle) 
     citizenMenuUI.addClickableRect(citizenMenuUI.imgRect, doNothing)
-    citizenMenuUI.addImg("citizenmenu.png") #Make a pressed version
-
-
     citizenMenuUI.addText("Action points: ", 15, (7, height-370))
     citizenMenuUI.addText("Health points: ", 15, (7, height-350))
     citizenMenuUI.addText("Hunger status: ", 15, (7, height-330))
@@ -95,7 +96,6 @@ def makeCitizenActionButton():
     citizenActionButtonUI.addClickableRect(citizenActionButtonUI.imgRect, citizenAction)
     citizenActionButtonUI.addImg("citizenactionbutton.png")
     citizenActionButtonUI.addText("", 15, (24, height-421+370))
-
     return citizenActionButtonUI
 
 uiComponents = {}
@@ -106,12 +106,13 @@ def makeUIComponents():
         "actionButton": makeActionButton(),
         "resourceBar": makeResourceBar(),
         "citizenMenu": makeCitizenMenu(),
-        "citizenActionButton": makeCitizenActionButton()
+        "citizenActionButton": makeCitizenActionButton(),
+        "idleButton": makeIdleButton()
     }
 
 def getUIComponents():
     return uiComponents
 
-def doNothing():
+def doNothing(): #For clickable UI rects that don't don't do anything (ex. menu backgrounds).
     return
 

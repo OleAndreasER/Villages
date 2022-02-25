@@ -107,9 +107,12 @@ def drawWorld(win):
     drawTiles(win, tiles)
 
     if getSelected() != None:
+        #Draw selected tile
         drawTileOutline(win, *worldToScreen(*indexToCoordinates(*getSelected())), tileSelectColor)
+       
+        #Available tiles for citizen      
         selectedTile = tiles[getSelected()[1]][getSelected()[0]]
-
+        
         if not selectedTile.containsCitizen(): return
         if selectedTile.getCitizenInTile().movementPoints == 0: return
 
@@ -119,6 +122,7 @@ def drawUI(win, x, y):
     #Update UI
     isHidden = getSelected() == None or not tiles[getSelected()[1]][getSelected()[0]].containsCitizen()
     getUIComponents()["citizenMenu"].isHidden = isHidden
+    getUIComponents()["idleButton"].isHidden = isHidden
 
     actionButtonIsHidden = isHidden or not tiles[getSelected()[1]][getSelected()[0]].containsNonCitizen()
     getUIComponents()["citizenActionButton"].isHidden = actionButtonIsHidden
@@ -144,7 +148,6 @@ def drawUI(win, x, y):
 
     getUIComponents()["resourceBar"].setText(0, str(currentPlayer.wood))
     getUIComponents()["resourceBar"].setText(1, str(currentPlayer.stone))
-
 
     actionButtonText = "Next Turn" if len(actionQueue()) == 0 else "Next Citizen"
     getUIComponents()["actionButton"].setText(0, actionButtonText)
@@ -177,8 +180,7 @@ def changeZoom(direction, pos):
 
 def leftClick(win, pos):
     for ui in reversed(getUIComponents().values()):
-        #Reverse so that the clickable areas are checked in reverse order of
-        #rendering order.
+        #Reverse because components render bottom up, while clickable areas should be checked top down.
         isClicked = ui.click(*pos)
         if isClicked:
             ui.switchImg(1)

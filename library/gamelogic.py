@@ -72,6 +72,7 @@ def actionQueue():
             if tiles[y][x].getCitizenInTile().isInQueue()]
 
 def citizenAction():
+    global selected
     if not isCitizenSelected(): return
     tile = tiles[selected[1]][selected[0]]
     if (not tile.containsCitizen()
@@ -80,6 +81,7 @@ def citizenAction():
         return
     if (tile.getNonCitizen().actionText == None): return
     tile.getCitizenInTile().actOnTile(tile.getNonCitizen())
+    selected = nextSelection()
 
 def removeFromTiles(targetTileType):
     for row in tiles:

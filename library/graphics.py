@@ -123,9 +123,7 @@ def drawUI(win, x, y):
     isHidden = getSelected() == None or not tiles[getSelected()[1]][getSelected()[0]].containsCitizen()
     getUIComponents()["citizenMenu"].isHidden = isHidden
     getUIComponents()["idleButton"].isHidden = isHidden
-
-    actionButtonIsHidden = isHidden or not tiles[getSelected()[1]][getSelected()[0]].containsNonCitizen()
-    getUIComponents()["citizenActionButton"].isHidden = actionButtonIsHidden
+    getUIComponents()["citizenActionButton"].isHidden = isHidden
 
     getUIComponents()["actionButton"].setText(1, f"Turn {getTurn()}")
 
@@ -142,8 +140,10 @@ def drawUI(win, x, y):
             getUIComponents()["citizenMenu"].setText(2, f"Hunger status: {citizen.hungerPoints} ({citizen.hungerStatus()})")
         if selectedTile.containsNonCitizen():
             tileType = selectedTile.getNonCitizen()
-            getUIComponents()["citizenActionButton"].isHidden = tileType.actionText == None
+            getUIComponents()["citizenActionButton"].isHidden = isHidden or tileType.actionText == None
             getUIComponents()["citizenActionButton"].setText(0, tileType.actionText)
+        else:
+            getUIComponents()["citizenActionButton"].isHidden = True
 
 
     getUIComponents()["resourceBar"].setText(0, str(currentPlayer.wood))

@@ -86,6 +86,7 @@ def makeResourceBar():
 def makeCitizenMenu():
     citizenMenuUI = UI("citizenmenu.png", 0, height-421)
     citizenMenuUI.addClickableRect(citizenMenuUI.imgRect, doNothing)
+    citizenMenuUI.addImg("citizenmenu.png")
     citizenMenuUI.addText("Action points: ", 15, (7, height-370))
     citizenMenuUI.addText("Health points: ", 15, (7, height-350))
     citizenMenuUI.addText("Hunger status: ", 15, (7, height-330))

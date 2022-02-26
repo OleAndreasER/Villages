@@ -1,8 +1,7 @@
 import pygame
 import os
 from library.Player import currentPlayer
-from library.Tree import Tree
-from library.Stone import Stone
+from library.resourcetiles import Tree, Stone
 
 class Citizen:
     img = pygame.image.load(os.path.join("assets", "citizen.png"))

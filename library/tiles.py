@@ -1,7 +1,6 @@
 from library.Tile import Tile
 from library.Citizen import Citizen
-from library.Tree import Tree
-from library.Stone import Stone
+from library.resourcetiles import Tree, Stone
 from library.foodtiles import BlueberryBush
 from library.buildings import House
 

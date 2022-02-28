@@ -99,6 +99,12 @@ def makeCitizenActionButton():
     citizenActionButtonUI.addText("", 15, (24, height-421+370))
     return citizenActionButtonUI
 
+def makeLockButton():
+    lockButtonUI = UI("lockiconunlocked.png", 193, height-421+300)
+    lockButtonUI.addImg("lockicon.png")
+    lockButtonUI.addClickableRect(lockButtonUI.imgRect, doNothing)
+    return lockButtonUI
+
 uiComponents = {}
 
 def makeUIComponents():
@@ -108,7 +114,8 @@ def makeUIComponents():
         "resourceBar": makeResourceBar(),
         "citizenMenu": makeCitizenMenu(),
         "citizenActionButton": makeCitizenActionButton(),
-        "idleButton": makeIdleButton()
+        "idleButton": makeIdleButton(),
+        "lockButton": makeLockButton()
     }
 
 def getUIComponents():

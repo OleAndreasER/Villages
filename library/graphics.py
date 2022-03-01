@@ -183,14 +183,18 @@ def leftClick(win, pos):
         #Reverse because components render bottom up, while clickable areas should be checked top down.
         isClicked = ui.click(*pos)
         if isClicked:
-            ui.switchImg(1)
+            if ui.isToggle:
+                ui.toggleImg()
+            else:
+                ui.switchImg(1)
             return
 
     selectTile(*worldFuncWithScreen(coordinatesToIndex, *pos))
 
 def leftClickRelease(win, pos):
     for ui in getUIComponents().values():
-        ui.switchImg(0)
+        if not ui.isToggle:
+            ui.switchImg(0)
 
 def rightClick(win, pos):
     if getSelected() == None: return

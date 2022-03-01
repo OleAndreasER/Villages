@@ -8,9 +8,10 @@ class UI:
         self.img = pygame.image.load(os.path.join("assets", img)).convert_alpha()
         self.imgVersions = [self.img]
         self.imgRect = self.img.get_rect(topleft = (x, y))
-        self.textElements = []
-        self.clickableRects = []
 
+    textElements = []
+    clickableRects = []
+    isToggle = False
     isHidden = False
 
     def addClickableRect(self, rect, func):
@@ -26,6 +27,12 @@ class UI:
 
     def switchImg(self, i):
         self.img = self.imgVersions[i]
+
+    def toggleImg(self):
+        if self.img == self.imgVersions[0]:
+            self.img = imgVersions[1]
+        else:
+            self.img = imgVersions[0]
 
     def setText(self, i, text):
         self.textElements[i]["text"] = text

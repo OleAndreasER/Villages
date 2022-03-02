@@ -17,11 +17,12 @@ black = (0,0,0)
 
 #Keybinds
 import pygame
-from library.gamelogic import actionButton, idle, citizenAction
+from library.gamelogic import actionButton, idle, selectedCitizenAction, lockAction
 
 keybinds = [
     (pygame.K_RETURN, actionButton),
     (pygame.K_SPACE, idle),
-    (pygame.K_a, citizenAction)
+    (pygame.K_a, selectedCitizenAction),
+    (pygame.K_l, lockAction)
 ]
 #http://www.pygame.org/docs/ref/key.html

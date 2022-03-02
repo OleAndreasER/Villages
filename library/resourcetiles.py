@@ -52,13 +52,17 @@ class Tree:
         self.actionText = "Chop wood"
     
     def getChopped(self, amount, knowsReplanting):
+        wood = 0
         if self.woodLeft > 0:
             wood = min(amount, self.woodLeft)
             self.woodLeft -= wood
+        if self.woodLeft > 0:
             return wood
-        elif knowsReplanting:
+
+        if knowsReplanting:
             self.becomeSapling()
         else:
             from library.gamelogic import removeFromTiles
             removeFromTiles(self)
-        return 0
+        return wood
+

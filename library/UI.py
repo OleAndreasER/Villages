@@ -1,6 +1,6 @@
 import pygame
 import os
-from library.gamelogic import actionButton, idle, citizenAction
+from library.gamelogic import actionButton, idle, selectedCitizenAction, lockAction
 from library.settings import width, height, eggWhite
 
 class UI:
@@ -25,7 +25,7 @@ class UI:
     def addImg(self, imgPath):
         self.imgVersions.append(pygame.image.load(os.path.join("assets", imgPath)).convert_alpha())
 
-    def switchImg(self, i):
+    def setImg(self, i):
         self.img = self.imgVersions[i]
 
     def toggleImg(self):
@@ -101,7 +101,7 @@ def makeCitizenMenu():
 
 def makeCitizenActionButton():
     citizenActionButtonUI = UI("citizenactionbutton.png", 14, height-421+361)
-    citizenActionButtonUI.addClickableRect(citizenActionButtonUI.imgRect, citizenAction)
+    citizenActionButtonUI.addClickableRect(citizenActionButtonUI.imgRect, selectedCitizenAction)
     citizenActionButtonUI.addImg("citizenactionbutton.png")
     citizenActionButtonUI.addText("", 15, (24, height-421+370))
     return citizenActionButtonUI
@@ -109,7 +109,7 @@ def makeCitizenActionButton():
 def makeLockButton():
     lockButtonUI = UI("lockiconunlocked.png", 193, height-421+300)
     lockButtonUI.addImg("lockicon.png")
-    lockButtonUI.addClickableRect(lockButtonUI.imgRect, doNothing)
+    lockButtonUI.addClickableRect(lockButtonUI.imgRect, lockAction)
     lockButtonUI.isToggle = True
     return lockButtonUI
 

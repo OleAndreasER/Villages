@@ -141,6 +141,10 @@ def drawUI(win, x, y):
             getUIComponents()["citizenMenu"].setText(0, f"Action points: {citizen.movementPoints}/{citizen.movement}")
             getUIComponents()["citizenMenu"].setText(1, f"Health points: {citizen.hp}/{citizen.totalHp}")
             getUIComponents()["citizenMenu"].setText(2, f"Hunger status: {citizen.hungerPoints} ({citizen.hungerStatus()})")
+
+            lockButtonImg = 1 if citizen.isLocked else 0
+            getUIComponents()["lockButton"].setImg(lockButtonImg)
+
         if selectedTile.containsNonCitizen():
             tileType = selectedTile.getNonCitizen()
             getUIComponents()["citizenActionButton"].isHidden = isHidden or tileType.actionText == None
@@ -154,6 +158,7 @@ def drawUI(win, x, y):
 
     actionButtonText = "Next Turn" if len(actionQueue()) == 0 else "Next Citizen"
     getUIComponents()["actionButton"].setText(0, actionButtonText)
+
 
     #Render UI
     for ui in getUIComponents().values():
@@ -186,10 +191,8 @@ def leftClick(win, pos):
         #Reverse because components render bottom up, while clickable areas should be checked top down.
         isClicked = ui.click(*pos)
         if isClicked:
-            if ui.isToggle:
-                ui.toggleImg()
-            else:
-                ui.switchImg(1)
+            if not ui.isToggle:
+                ui.setImg(1)
             return
 
     selectTile(*worldFuncWithScreen(coordinatesToIndex, *pos))
@@ -197,7 +200,7 @@ def leftClick(win, pos):
 def leftClickRelease(win, pos):
     for ui in getUIComponents().values():
         if not ui.isToggle:
-            ui.switchImg(0)
+            ui.setImg(0)
 
 def rightClick(win, pos):
     if getSelected() == None: return

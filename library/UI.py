@@ -8,9 +8,9 @@ class UI:
         self.img = pygame.image.load(os.path.join("assets", img)).convert_alpha()
         self.imgVersions = [self.img]
         self.imgRect = self.img.get_rect(topleft = (x, y))
+        self.textElements = []
+        self.clickableRects = []
 
-    textElements = []
-    clickableRects = []
     isToggle = False
     isHidden = False
 
@@ -30,9 +30,9 @@ class UI:
 
     def toggleImg(self):
         if self.img == self.imgVersions[0]:
-            self.img = imgVersions[1]
+            self.img = self.imgVersions[1]
         else:
-            self.img = imgVersions[0]
+            self.img = self.imgVersions[0]
 
     def setText(self, i, text):
         self.textElements[i]["text"] = text
@@ -110,6 +110,7 @@ def makeLockButton():
     lockButtonUI = UI("lockiconunlocked.png", 193, height-421+300)
     lockButtonUI.addImg("lockicon.png")
     lockButtonUI.addClickableRect(lockButtonUI.imgRect, doNothing)
+    lockButtonUI.isToggle = True
     return lockButtonUI
 
 uiComponents = {}

@@ -120,10 +120,13 @@ def drawWorld(win):
 
 def drawUI(win, x, y):
     #Update UI
+
+    #Hide/Show citizen menu
     isHidden = getSelected() == None or not tiles[getSelected()[1]][getSelected()[0]].containsCitizen()
     getUIComponents()["citizenMenu"].isHidden = isHidden
     getUIComponents()["idleButton"].isHidden = isHidden
     getUIComponents()["citizenActionButton"].isHidden = isHidden
+    getUIComponents()["lockButton"].isHidden = isHidden
 
     getUIComponents()["actionButton"].setText(1, f"Turn {getTurn()}")
 

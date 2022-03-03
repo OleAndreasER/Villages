@@ -128,7 +128,10 @@ def drawUI(win, x, y):
     getUIComponents()["citizenActionButton"].isHidden = isHidden
     getUIComponents()["lockButton"].isHidden = isHidden
     getUIComponents()["buildMenuButton"].isHidden = isHidden
-    getUIComponents()["buildMenu"].isHidden = isHidden or not getUIComponents()["buildMenuButton"].isPressed
+    buildMenuIsHidden = isHidden or not getUIComponents()["buildMenuButton"].isPressed
+    getUIComponents()["buildMenu"].isHidden = buildMenuIsHidden
+    getUIComponents()["houseButton"].isHidden = buildMenuIsHidden
+    getUIComponents()["sawMillButton"].isHidden = buildMenuIsHidden
 
     getUIComponents()["actionButton"].setText(1, f"Turn {getTurn()}")
 
@@ -152,6 +155,8 @@ def drawUI(win, x, y):
             getUIComponents()["citizenActionButton"].isHidden = isHidden or tileType.actionText == None
             getUIComponents()["citizenActionButton"].setText(0, tileType.actionText)
             getUIComponents()["buildMenuButton"].isHidden = True
+            getUIComponents()["houseButton"].isHidden = True
+            getUIComponents()["sawMillButton"].isHidden = True
         else:
             getUIComponents()["citizenActionButton"].isHidden = True
 

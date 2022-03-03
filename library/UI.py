@@ -129,6 +129,13 @@ def makeBuildMenu():
     buildMenuUI.addClickableRect(buildMenuUI.imgRect, doNothing)
     return buildMenuUI
 
+def makeHouseButton():
+    houseButtonUI = UI("buildhouseicon.png", 260+9, height-421+8+3+9)
+    return houseButtonUI
+
+def makeSawMillButton():
+    sawMillButtonUI = UI("buildsawmillicon.png", 260+9, height-421+8+3+9+9+40)
+    return sawMillButtonUI
 
 uiComponents = {}
 
@@ -142,7 +149,9 @@ def makeUIComponents():
         "idleButton": makeIdleButton(),
         "buildMenuButton": makeBuildMenuButton(),
         "lockButton": makeLockButton(),
-        "buildMenu": makeBuildMenu()
+        "buildMenu": makeBuildMenu(),
+        "houseButton": makeHouseButton(),
+        "sawMillButton": makeSawMillButton()
     }
 
 def getUIComponents():

@@ -5,7 +5,8 @@ class House:
     img = pygame.image.load(os.path.join("assets", "house.png"))
     movementCost = 0
     actionText = None
-
+    buildButton = "houseMenuButton"
+    
     def endTurn(self):
         return
 
@@ -16,6 +17,7 @@ class SawMill:
     img = pygame.image.load(os.path.join("assets", "sawmill.png"))
     movementCost = 0
     actionText = None
+    buildButton = "sawMillButton"
 
     def endTurn(self):
         return

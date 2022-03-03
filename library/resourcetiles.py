@@ -17,14 +17,13 @@ class Stone:
 
 
 class Tree:
-
     treeImg = pygame.image.load(os.path.join("assets", "tree.png"))
     sapling1Img = pygame.image.load(os.path.join("assets", "sapling1.png")) 
     sapling2Img = pygame.image.load(os.path.join("assets", "sapling2.png")) 
     sapling3Img = pygame.image.load(os.path.join("assets", "sapling3.png")) 
     img = treeImg
     movementCost = 1
-    woodLeft = 4
+    woodLeft = 5
     actionText = "Chop wood"
     turnsUntilTree = 0
 

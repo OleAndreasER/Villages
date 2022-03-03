@@ -127,6 +127,7 @@ def drawUI(win, x, y):
     getUIComponents()["idleButton"].isHidden = isHidden
     getUIComponents()["citizenActionButton"].isHidden = isHidden
     getUIComponents()["lockButton"].isHidden = isHidden
+    getUIComponents()["buildMenuButton"].isHidden = isHidden
 
     getUIComponents()["actionButton"].setText(1, f"Turn {getTurn()}")
 

@@ -25,7 +25,7 @@ class Citizen:
 
     hungerPoints = 30
 
-    latestAction = None #func
+    latestAction = None #{method, (args)}
     isLocked = False
 
     def toggleLock(self):

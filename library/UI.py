@@ -12,6 +12,7 @@ class UI:
         self.clickableRects = []
 
     isToggle = False
+    isPressed = False
     isHidden = False
 
     def addClickableRect(self, rect, func):
@@ -47,6 +48,8 @@ class UI:
         for rect, func in self.clickableRects:
             if rect.collidepoint((x, y)):
                 func()
+                if self.isToggle:
+                    self.isPressed = not self.isPressed
                 return True
         return False
 
@@ -108,6 +111,9 @@ def makeCitizenActionButton():
 
 def makeBuildMenuButton():
     buildMenuButtonUI = UI("buildmenuicon.png", 193, height-421+300)
+    buildMenuButtonUI.addClickableRect(buildMenuButtonUI.imgRect, doNothing)
+    buildMenuButtonUI.isToggle = True
+    buildMenuButtonUI.addImg("buildmenuicon.png")
     return buildMenuButtonUI
 
 def makeLockButton():
@@ -116,6 +122,12 @@ def makeLockButton():
     lockButtonUI.addClickableRect(lockButtonUI.imgRect, lockAction)
     lockButtonUI.isToggle = True
     return lockButtonUI
+
+def makeBuildMenu():
+    buildMenuUI = UI("buildmenu.png", 260, height-421+8)
+    buildMenuUI.addImg("buildmenu.png")
+    buildMenuUI.addClickableRect(buildMenuUI.imgRect, doNothing)
+    return buildMenuUI
 
 
 uiComponents = {}
@@ -129,7 +141,8 @@ def makeUIComponents():
         "citizenActionButton": makeCitizenActionButton(),
         "idleButton": makeIdleButton(),
         "buildMenuButton": makeBuildMenuButton(),
-        "lockButton": makeLockButton()
+        "lockButton": makeLockButton(),
+        "buildMenu": makeBuildMenu()
     }
 
 def getUIComponents():

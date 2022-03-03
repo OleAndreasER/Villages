@@ -128,6 +128,7 @@ def drawUI(win, x, y):
     getUIComponents()["citizenActionButton"].isHidden = isHidden
     getUIComponents()["lockButton"].isHidden = isHidden
     getUIComponents()["buildMenuButton"].isHidden = isHidden
+    getUIComponents()["buildMenu"].isHidden = isHidden or not getUIComponents()["buildMenuButton"].isPressed
 
     getUIComponents()["actionButton"].setText(1, f"Turn {getTurn()}")
 
@@ -165,6 +166,9 @@ def drawUI(win, x, y):
     for ui in getUIComponents().values():
         ui.render(win)
 
+def resetToggles():
+    for ui in getUIComponents().values():
+        ui.isPressed = False
 
 #Input response
 def drag(pos):
@@ -190,11 +194,15 @@ def changeZoom(direction, pos):
 def leftClick(win, pos):
     for ui in reversed(getUIComponents().values()):
         #Reverse because components render bottom up, while clickable areas should be checked top down.
+        if ui.isHidden: continue
+
         isClicked = ui.click(*pos)
         if isClicked:
             if not ui.isToggle:
                 ui.setImg(1)
             return
+
+    resetToggles()
 
     selectTile(*worldFuncWithScreen(coordinatesToIndex, *pos))
 

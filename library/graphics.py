@@ -151,6 +151,7 @@ def drawUI(win, x, y):
             tileType = selectedTile.getNonCitizen()
             getUIComponents()["citizenActionButton"].isHidden = isHidden or tileType.actionText == None
             getUIComponents()["citizenActionButton"].setText(0, tileType.actionText)
+            getUIComponents()["buildMenuButton"].isHidden = True
         else:
             getUIComponents()["citizenActionButton"].isHidden = True
 

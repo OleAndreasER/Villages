@@ -5,7 +5,7 @@ class House:
     img = pygame.image.load(os.path.join("assets", "house.png"))
     movementCost = 0
     actionText = None
-    buildButton = "houseMenuButton"
+    buildButton = "houseButton"
     
     def endTurn(self):
         return

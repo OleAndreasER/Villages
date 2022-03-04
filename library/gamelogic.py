@@ -1,4 +1,5 @@
 from library.tiles import tiles
+from library.buildings import House, SawMill
 
 #Selected tile's index
 selected = None
@@ -99,4 +100,15 @@ def removeFromTiles(targetTileType):
             tile.tileTypes = [tileType
                               for tileType in tile.tileTypes
                               if not tileType is targetTileType]
+
+techToBuilding = {
+    "house": House,
+    "sawMill": SawMill
+}
+
+def knownBuildings(citizen):
+    return [techToBuilding[tech]
+            for tech in citizen.knownTechnologies
+            if tech in techToBuilding.keys()]
+
 

@@ -2,9 +2,9 @@
 import pygame
 import pygame.gfxdraw
 import os
-from library.gamelogic import availableTiles, moveCitizen, getSelected, selectTile, actionButton, actionQueue, getTurn
+from library.gamelogic import availableTiles, moveCitizen, getSelected, selectTile, actionButton, actionQueue, getTurn, knownBuildings
 from library.tiles import tiles
-from library.UI import getUIComponents, textSurface
+from library.UI import getUIComponents, textSurface, buildingButtons
 from library.settings import width, height, tileSelectColor, white, grassGreen, black
 from library.Player import Player, currentPlayer
 
@@ -130,8 +130,8 @@ def drawUI(win, x, y):
     getUIComponents()["buildMenuButton"].isHidden = isHidden
     buildMenuIsHidden = isHidden or not getUIComponents()["buildMenuButton"].isPressed
     getUIComponents()["buildMenu"].isHidden = buildMenuIsHidden
-    getUIComponents()["houseButton"].isHidden = buildMenuIsHidden
-    getUIComponents()["sawMillButton"].isHidden = buildMenuIsHidden
+    if buildMenuIsHidden:
+        updateBuildButtons(None)
 
     getUIComponents()["actionButton"].setText(1, f"Turn {getTurn()}")
 
@@ -146,7 +146,6 @@ def drawUI(win, x, y):
             getUIComponents()["citizenMenu"].setText(0, f"Action points: {citizen.movementPoints}/{citizen.movement}")
             getUIComponents()["citizenMenu"].setText(1, f"Health points: {citizen.hp}/{citizen.totalHp}")
             getUIComponents()["citizenMenu"].setText(2, f"Hunger status: {citizen.hungerPoints} ({citizen.hungerStatus()})")
-
             lockButtonImg = 1 if citizen.isLocked else 0
             getUIComponents()["lockButton"].setImg(lockButtonImg)
 
@@ -155,10 +154,13 @@ def drawUI(win, x, y):
             getUIComponents()["citizenActionButton"].isHidden = isHidden or tileType.actionText == None
             getUIComponents()["citizenActionButton"].setText(0, tileType.actionText)
             getUIComponents()["buildMenuButton"].isHidden = True
-            getUIComponents()["houseButton"].isHidden = True
-            getUIComponents()["sawMillButton"].isHidden = True
         else:
             getUIComponents()["citizenActionButton"].isHidden = True
+
+        if (selectedTile.containsCitizen()
+            and not selectedTile.containsNonCitizen()
+            and not buildMenuIsHidden):
+            updateBuildButtons(selectedTile.getCitizenInTile())
 
 
     getUIComponents()["resourceBar"].setText(0, str(currentPlayer.wood))
@@ -167,10 +169,20 @@ def drawUI(win, x, y):
     actionButtonText = "Next Turn" if len(actionQueue()) == 0 else "Next Citizen"
     getUIComponents()["actionButton"].setText(0, actionButtonText)
 
-
     #Render UI
     for ui in getUIComponents().values():
         ui.render(win)
+
+def updateBuildButtons(citizen):
+    for buildingButton in buildingButtons():
+        buildingButton.isHidden = True
+
+    if citizen == None: return
+    
+    for i, building in enumerate(knownBuildings(citizen)):
+        button = getUIComponents()[building.buildButton]
+        button.imgRect.topleft = (269, height-401+49*i)
+        button.isHidden = False
 
 def resetToggles():
     for ui in getUIComponents().values():

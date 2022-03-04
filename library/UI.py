@@ -141,6 +141,7 @@ uiComponents = {}
 
 def makeUIComponents():
     global uiComponents
+    global buildingButtons
     uiComponents = {
         "actionButton": makeActionButton(),
         "resourceBar": makeResourceBar(),
@@ -153,6 +154,12 @@ def makeUIComponents():
         "houseButton": makeHouseButton(),
         "sawMillButton": makeSawMillButton()
     }
+
+def buildingButtons():
+    return [uiComponents[building] 
+            for building in uiComponents.keys()
+            if building in ["houseButton", "sawMillButton"]]
+
 
 def getUIComponents():
     return uiComponents

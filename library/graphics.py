@@ -174,10 +174,10 @@ def drawUI(win, x, y):
         ui.render(win)
 
 def updateBuildButtons(citizen):
-    for buildingButton in buildingButtons():
-        buildingButton.isHidden = True
-
-    if citizen == None: return
+    if citizen == None:
+        for buildingButton in buildingButtons():
+            buildingButton.isHidden = True
+        return
     
     for i, building in enumerate(knownBuildings(citizen)):
         button = getUIComponents()[building.buildButton]

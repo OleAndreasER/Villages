@@ -7,6 +7,7 @@ from library.tiles import tiles
 from library.UI import getUIComponents, textSurface, buildingButtons
 from library.settings import width, height, tileSelectColor, white, grassGreen, black
 from library.Player import Player, currentPlayer
+from library.buildings import House
 
 #TODO: center on player
 #Camera
@@ -154,6 +155,11 @@ def drawUI(win, x, y):
             getUIComponents()["citizenActionButton"].isHidden = isHidden or tileType.actionText == None
             getUIComponents()["citizenActionButton"].setText(0, tileType.actionText)
             getUIComponents()["buildMenuButton"].isHidden = True
+            if isinstance(tileType, House) and not isHidden:
+                if not tileType.isBuilt:
+                    getUIComponents()["houseButton"].isHidden = False
+                    getUIComponents()["houseButton"].imgRect.topleft = (193, height-421+300)
+
         else:
             getUIComponents()["citizenActionButton"].isHidden = True
 

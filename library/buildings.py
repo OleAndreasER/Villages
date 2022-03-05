@@ -6,9 +6,17 @@ class House:
     movementCost = 0
     actionText = None
     buildButton = "houseButton"
+    citizenIsSpawned = False
     
     def endTurn(self):
+        if not self.citizenIsSpawned:
+            from library.gamelogic import spawnCitizen
+            spawnCitizen(self)
+            self.citizenIsSpawned = True
         return
+
+    def isOccupied(self):
+        return 
 
     def info(self):
         return "House"

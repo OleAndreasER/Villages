@@ -101,6 +101,13 @@ def removeFromTiles(targetTileType):
                               for tileType in tile.tileTypes
                               if not tileType is targetTileType]
 
+def tileContainingTileType(targetTileType):
+    for row in tiles:
+        for tile in row:
+            if any(tileType is targetTileType for tileType in tile.tileTypes):
+                return tile
+    return None
+
 techToBuilding = {
     "house": House,
     "sawMill": SawMill
@@ -111,4 +118,6 @@ def knownBuildings(citizen):
             for tech in citizen.knownTechnologies
             if tech in techToBuilding.keys()]
 
+def spawnCitizen(house):
+    tileContainingTileType(house).spawnCitizen()
 

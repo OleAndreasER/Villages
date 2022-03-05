@@ -160,7 +160,6 @@ def buildingButtons():
             for building in uiComponents.keys()
             if building in ["houseButton", "sawMillButton"]]
 
-
 def getUIComponents():
     return uiComponents
 

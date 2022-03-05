@@ -36,6 +36,9 @@ class Tile:
         for tileType in self.tileTypes:
             tileType.endTurn()
 
+    def spawnCitizen(self):
+        self.tileTypes.append(Citizen())
+
     def info(self):
         tile = [tileType for tileType in self.tileTypes if not isinstance(tileType, Citizen)]
         if len(tile) == 0: return ""

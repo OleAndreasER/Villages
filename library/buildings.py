@@ -10,10 +10,11 @@ class House:
     buildButton = "houseButton"
     citizenIsSpawned = False
     buildPointsLeft = 5
+    isBuilt = False
     cost = {"wood":10} 
     
     def endTurn(self):
-        if not self.citizenIsSpawned:
+        if self.isBuilt and not self.citizenIsSpawned:
             from library.gamelogic import spawnCitizen
             spawnCitizen(self)
             self.citizenIsSpawned = True

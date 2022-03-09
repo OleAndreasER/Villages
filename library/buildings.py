@@ -25,6 +25,15 @@ class House:
     def info(self):
         return "House"
 
+    def build(self):
+        self.buildPointsLeft -= 1
+        if self.buildPointsLeft == 0:
+            self.finish()
+
+    def finish(self):
+        self.img = self.houseImg
+        isBuilt = True
+
 class SawMill:
     img = pygame.image.load(os.path.join("assets", "sawmill.png"))
     movementCost = 0

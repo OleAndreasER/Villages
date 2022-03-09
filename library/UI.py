@@ -1,6 +1,6 @@
 import pygame
 import os
-from library.gamelogic import actionButton, idle, selectedCitizenAction, lockAction
+from library.gamelogic import actionButton, idle, selectedCitizenAction, lockAction, buildHouse, buildSawMill
 from library.settings import width, height, eggWhite
 
 class UI:
@@ -131,10 +131,14 @@ def makeBuildMenu():
 
 def makeHouseButton():
     houseButtonUI = UI("buildhouseicon.png", 260+9, height-421+8+3+9)
+    houseButtonUI.addImg("buildhouseicon.png")
+    houseButtonUI.addClickableRect(houseButtonUI.imgRect, buildHouse)
     return houseButtonUI
 
 def makeSawMillButton():
     sawMillButtonUI = UI("buildsawmillicon.png", 260+9, height-421+8+3+9+9+40)
+    sawMillButtonUI.addImg("buildsawmillicon.png")
+    sawMillButtonUI.addClickableRect(sawMillButtonUI.imgRect, buildSawMill)
     return sawMillButtonUI
 
 uiComponents = {}

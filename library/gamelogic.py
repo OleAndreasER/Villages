@@ -45,6 +45,8 @@ def moveCitizen(x, y, toX, toY):
 def nextSelection():
     return None if len(actionQueue()) == 0 else actionQueue()[0]
 
+
+#Actions tied to keybinds/mouse clicks
 def actionButton():
     if len(actionQueue()) == 0:
         endTurn()
@@ -85,14 +87,22 @@ def selectedCitizenAction():
     citizenAction(tile.getCitizenInTile(), tile)
     selected = nextSelection()
 
-def citizenAction(citizen, tile):
-    citizen.latestAction = {"action": citizenAction, "args": (citizen, tile)}
-    citizen.actOnTile(tile.getNonCitizen())
-
 def lockAction():
     if not isCitizenSelected(): return
     citizen = tiles[selected[1]][selected[0]].getCitizenInTile()
     citizen.toggleLock()
+
+def buildHouse():
+    if not isCitizenSelected(): return
+    tile = tiles[selected[1]][selected[0]]
+    citizen = tile.getCitizenInTile()
+    tile.buildHouse(citizen)
+    
+
+def buildSawMill():
+    return
+
+#
 
 def removeFromTiles(targetTileType):
     for row in tiles:
@@ -107,6 +117,10 @@ def tileContainingTileType(targetTileType):
             if any(tileType is targetTileType for tileType in tile.tileTypes):
                 return tile
     return None
+
+def citizenAction(citizen, tile):
+    citizen.latestAction = {"action": citizenAction, "args": (citizen, tile)}
+    citizen.actOnTile(tile.getNonCitizen())
 
 techToBuilding = {
     "house": House,

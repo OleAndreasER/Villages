@@ -4,7 +4,7 @@ import pygame.gfxdraw
 import os
 from library.gamelogic import availableTiles, moveCitizen, getSelected, selectTile, actionButton, actionQueue, getTurn, knownBuildings
 from library.tiles import tiles
-from library.UI import getUIComponents, textSurface, buildingButtons
+from library.UI import UIComponents, UIComponent, textSurface, buildingButtons
 from library.settings import width, height, tileSelectColor, white, grassGreen, black
 from library.Player import Player, currentPlayer
 from library.buildings import House
@@ -124,44 +124,44 @@ def drawUI(win, x, y):
 
     #Hide/Show citizen menu
     isHidden = getSelected() == None or not tiles[getSelected()[1]][getSelected()[0]].containsCitizen()
-    getUIComponents()["citizenMenu"].isHidden = isHidden
-    getUIComponents()["idleButton"].isHidden = isHidden
-    getUIComponents()["citizenActionButton"].isHidden = isHidden
-    getUIComponents()["lockButton"].isHidden = isHidden
-    getUIComponents()["buildMenuButton"].isHidden = isHidden
-    buildMenuIsHidden = isHidden or not getUIComponents()["buildMenuButton"].isPressed
-    getUIComponents()["buildMenu"].isHidden = buildMenuIsHidden
+    UIComponent("citizenMenu").isHidden = isHidden
+    UIComponent("idleButton").isHidden = isHidden
+    UIComponent("citizenActionButton").isHidden = isHidden
+    UIComponent("lockButton").isHidden = isHidden
+    UIComponent("buildMenuButton").isHidden = isHidden
+    buildMenuIsHidden = isHidden or not UIComponent("buildMenuButton").isPressed
+    UIComponent("buildMenu").isHidden = buildMenuIsHidden
     if buildMenuIsHidden:
         updateBuildButtons(None)
 
-    getUIComponents()["actionButton"].setText(1, f"Turn {getTurn()}")
+    UIComponent("actionButton").setText(1, f"Turn {getTurn()}")
 
     hoveredX, hoveredY = worldFuncWithScreen(coordinatesToIndex, x, y)
     hoveredTile = tiles[hoveredY][hoveredX]
-    getUIComponents()["actionButton"].setText(2, hoveredTile.info())
+    UIComponent("actionButton").setText(2, hoveredTile.info())
     
     if getSelected() != None:
         selectedTile = tiles[getSelected()[1]][getSelected()[0]]
         if selectedTile.containsCitizen():
             citizen = selectedTile.getCitizenInTile()
-            getUIComponents()["citizenMenu"].setText(0, f"Action points: {citizen.movementPoints}/{citizen.movement}")
-            getUIComponents()["citizenMenu"].setText(1, f"Health points: {citizen.hp}/{citizen.totalHp}")
-            getUIComponents()["citizenMenu"].setText(2, f"Hunger status: {citizen.hungerPoints} ({citizen.hungerStatus()})")
+            UIComponent("citizenMenu").setText(0, f"Action points: {citizen.movementPoints}/{citizen.movement}")
+            UIComponent("citizenMenu").setText(1, f"Health points: {citizen.hp}/{citizen.totalHp}")
+            UIComponent("citizenMenu").setText(2, f"Hunger status: {citizen.hungerPoints} ({citizen.hungerStatus()})")
             lockButtonImg = 1 if citizen.isLocked else 0
-            getUIComponents()["lockButton"].setImg(lockButtonImg)
+            UIComponent("lockButton").setImg(lockButtonImg)
 
         if selectedTile.containsNonCitizen():
             tileType = selectedTile.getNonCitizen()
-            getUIComponents()["citizenActionButton"].isHidden = isHidden or tileType.actionText == None
-            getUIComponents()["citizenActionButton"].setText(0, tileType.actionText)
-            getUIComponents()["buildMenuButton"].isHidden = True
+            UIComponent("citizenActionButton").isHidden = isHidden or tileType.actionText == None
+            UIComponent("citizenActionButton").setText(0, tileType.actionText)
+            UIComponent("buildMenuButton").isHidden = True
             if isinstance(tileType, House) and not isHidden:
                 if not tileType.isBuilt:
-                    getUIComponents()["houseButton"].isHidden = False
-                    getUIComponents()["houseButton"].imgRect.topleft = (193, height-421+300)
+                    UIComponent("houseButton").isHidden = False
+                    UIComponent("houseButton").imgRect.topleft = (193, height-421+300)
 
         else:
-            getUIComponents()["citizenActionButton"].isHidden = True
+            UIComponent("citizenActionButton").isHidden = True
 
         if (selectedTile.containsCitizen()
             and not selectedTile.containsNonCitizen()
@@ -169,14 +169,14 @@ def drawUI(win, x, y):
             updateBuildButtons(selectedTile.getCitizenInTile())
 
 
-    getUIComponents()["resourceBar"].setText(0, str(currentPlayer.wood))
-    getUIComponents()["resourceBar"].setText(1, str(currentPlayer.stone))
+    UIComponent("resourceBar").setText(0, str(currentPlayer.wood))
+    UIComponent("resourceBar").setText(1, str(currentPlayer.stone))
 
     actionButtonText = "Next Turn" if len(actionQueue()) == 0 else "Next Citizen"
-    getUIComponents()["actionButton"].setText(0, actionButtonText)
+    UIComponent("actionButton").setText(0, actionButtonText)
 
     #Render UI
-    for ui in getUIComponents().values():
+    for ui in UIComponents():
         ui.render(win)
 
 def updateBuildButtons(citizen):
@@ -186,12 +186,12 @@ def updateBuildButtons(citizen):
         return
     
     for i, building in enumerate(knownBuildings(citizen)):
-        button = getUIComponents()[building.buildButton]
+        button = UIComponent(building.buildButton)
         button.imgRect.topleft = (269, height-401+49*i)
         button.isHidden = False
 
 def resetToggles():
-    for ui in getUIComponents().values():
+    for ui in UIComponents():
         ui.isPressed = False
 
 #Input response
@@ -216,7 +216,7 @@ def changeZoom(direction, pos):
     offsetY += beforeZoomY - afterZoomY
 
 def leftClick(win, pos):
-    for ui in reversed(getUIComponents().values()):
+    for ui in reversed(UIComponents()):
         #Reverse because components render bottom up, while clickable areas should be checked top down.
         if ui.isHidden: continue
 
@@ -231,7 +231,7 @@ def leftClick(win, pos):
     selectTile(*worldFuncWithScreen(coordinatesToIndex, *pos))
 
 def leftClickRelease(win, pos):
-    for ui in getUIComponents().values():
+    for ui in UIComponents():
         if not ui.isToggle:
             ui.setImg(0)
 

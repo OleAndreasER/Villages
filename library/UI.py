@@ -157,8 +157,11 @@ def buildingButtons():
             for building in uiComponents.keys()
             if building in ["houseButton", "sawMillButton"]]
 
-def getUIComponents():
-    return uiComponents
+def UIComponent(component):
+    return uiComponents[component]
+
+def UIComponents():
+    return uiComponents.values()
 
 def doNothing(): #For clickable UI rects that don't don't do anything (ex. menu backgrounds).
     return

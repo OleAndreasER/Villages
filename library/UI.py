@@ -27,7 +27,8 @@ class UI:
         self.imgVersions.append(pygame.image.load(os.path.join("assets", imgPath)).convert_alpha())
 
     def setImg(self, i):
-        self.img = self.imgVersions[i]
+        if len(self.imgVersions) > i:
+            self.img = self.imgVersions[i]
 
     def toggleImg(self):
         if self.img == self.imgVersions[0]:
@@ -81,13 +82,11 @@ def makeActionButton():
 def makeIdleButton():
     idleButtonUI = UI("idlebutton.png", 193, height-421+361)
     idleButtonUI.addClickableRect(pygame.Rect(193, height-421+361, 39, 39), idle) 
-    idleButtonUI.addImg("idlebutton.png")
     return idleButtonUI
 
 def makeResourceBar():
     resourceBarUI = UI("resourcebar.png", 0, 0)
     resourceBarUI.addClickableRect(resourceBarUI.imgRect, doNothing)
-    resourceBarUI.addImg("resourcebar.png")
 
     resourceBarUI.addText("0", 13, (65, 0))
     resourceBarUI.addText("0", 13, (195, 0))
@@ -96,7 +95,6 @@ def makeResourceBar():
 def makeCitizenMenu():
     citizenMenuUI = UI("citizenmenu.png", 0, height-421)
     citizenMenuUI.addClickableRect(citizenMenuUI.imgRect, doNothing)
-    citizenMenuUI.addImg("citizenmenu.png")
     citizenMenuUI.addText("Action points: ", 15, (7, height-370))
     citizenMenuUI.addText("Health points: ", 15, (7, height-350))
     citizenMenuUI.addText("Hunger status: ", 15, (7, height-330))
@@ -105,7 +103,6 @@ def makeCitizenMenu():
 def makeCitizenActionButton():
     citizenActionButtonUI = UI("citizenactionbutton.png", 14, height-421+361)
     citizenActionButtonUI.addClickableRect(citizenActionButtonUI.imgRect, selectedCitizenAction)
-    citizenActionButtonUI.addImg("citizenactionbutton.png")
     citizenActionButtonUI.addText("", 15, (24, height-421+370))
     return citizenActionButtonUI
 
@@ -113,25 +110,21 @@ def makeBuildMenuButton():
     buildMenuButtonUI = UI("buildmenuicon.png", 193, height-421+300)
     buildMenuButtonUI.addClickableRect(buildMenuButtonUI.imgRect, doNothing)
     buildMenuButtonUI.isToggle = True
-    buildMenuButtonUI.addImg("buildmenuicon.png")
     return buildMenuButtonUI
 
 def makeLockButton():
     lockButtonUI = UI("lockiconunlocked.png", 193, height-421+25)
-    lockButtonUI.addImg("lockicon.png")
     lockButtonUI.addClickableRect(lockButtonUI.imgRect, lockAction)
     lockButtonUI.isToggle = True
     return lockButtonUI
 
 def makeBuildMenu():
     buildMenuUI = UI("buildmenu.png", 260, height-421+8)
-    buildMenuUI.addImg("buildmenu.png")
     buildMenuUI.addClickableRect(buildMenuUI.imgRect, doNothing)
     return buildMenuUI
 
 def makeHouseButton():
     houseButtonUI = UI("buildhouseicon.png", 260+9, height-421+8+3+9)
-    houseButtonUI.addImg("buildhouseicon.png")
     houseButtonUI.addClickableRect(houseButtonUI.imgRect, buildHouse)
     return houseButtonUI
 

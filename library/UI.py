@@ -135,33 +135,48 @@ def makeSawMillButton():
     return sawMillButtonUI
 
 uiComponents = {}
+buildButtons = {}
+citizenMenuComponents = {}
 
 def makeUIComponents():
     global uiComponents
-    global buildingButtons
-    uiComponents = {
-        "actionButton": makeActionButton(),
-        "resourceBar": makeResourceBar(),
+    global buildButtons
+    global citizenMenu
+
+    citizenMenu = {
         "citizenMenu": makeCitizenMenu(),
         "citizenActionButton": makeCitizenActionButton(),
         "idleButton": makeIdleButton(),
         "buildMenuButton": makeBuildMenuButton(),
         "lockButton": makeLockButton(),
-        "buildMenu": makeBuildMenu(),
+        "buildMenu": makeBuildMenu()
+    }
+
+    buildButtons = {
         "houseButton": makeHouseButton(),
         "sawMillButton": makeSawMillButton()
     }
 
-def buildingButtons():
-    return [uiComponents[building] 
-            for building in uiComponents.keys()
-            if building in ["houseButton", "sawMillButton"]]
+    uiComponents = {
+        "actionButton": makeActionButton(),
+        "resourceBar": makeResourceBar(),
+        **citizenMenu,
+        **buildButtons
+    }
+
 
 def UIComponent(component):
     return uiComponents[component]
 
 def UIComponents():
     return uiComponents.values()
+
+def buildButtonComponents():
+    return buildButtons.values()
+
+def citizenMenuComponents():
+    return citizenMenu.values()
+
 
 def doNothing(): #For clickable UI rects that don't don't do anything (ex. menu backgrounds).
     return

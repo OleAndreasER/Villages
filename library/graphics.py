@@ -4,7 +4,7 @@ import pygame.gfxdraw
 import os
 from library.gamelogic import availableTiles, moveCitizen, getSelected, selectTile, actionButton, actionQueue, getTurn, knownBuildings
 from library.tiles import tiles
-from library.UI import UIComponents, UIComponent, textSurface, buildingButtons
+from library.UI import UIComponents, UIComponent, textSurface, buildButtonComponents, citizenMenuComponents
 from library.settings import width, height, tileSelectColor, white, grassGreen, black
 from library.Player import Player, currentPlayer
 from library.buildings import House
@@ -122,15 +122,15 @@ def drawWorld(win):
 def drawUI(win, x, y):
     #Update UI
 
-    #Hide/Show citizen menu
+    ##Hide/Show citizen menu
     isHidden = getSelected() == None or not tiles[getSelected()[1]][getSelected()[0]].containsCitizen()
-    UIComponent("citizenMenu").isHidden = isHidden
-    UIComponent("idleButton").isHidden = isHidden
-    UIComponent("citizenActionButton").isHidden = isHidden
-    UIComponent("lockButton").isHidden = isHidden
-    UIComponent("buildMenuButton").isHidden = isHidden
+    
+    for citizenMenuComponent in citizenMenuComponents():
+        citizenMenuComponent.isHidden = isHidden
+
     buildMenuIsHidden = isHidden or not UIComponent("buildMenuButton").isPressed
     UIComponent("buildMenu").isHidden = buildMenuIsHidden
+
     if buildMenuIsHidden:
         updateBuildButtons(None)
 
@@ -168,7 +168,6 @@ def drawUI(win, x, y):
             and not buildMenuIsHidden):
             updateBuildButtons(selectedTile.getCitizenInTile())
 
-
     UIComponent("resourceBar").setText(0, str(currentPlayer.wood))
     UIComponent("resourceBar").setText(1, str(currentPlayer.stone))
 
@@ -181,7 +180,7 @@ def drawUI(win, x, y):
 
 def updateBuildButtons(citizen):
     if citizen == None:
-        for buildingButton in buildingButtons():
+        for buildingButton in buildButtonComponents():
             buildingButton.isHidden = True
         return
     

@@ -89,7 +89,6 @@ def drawImgOnTile(win, x, y, img, size):
     win.blit(pygame.transform.scale(img, (size, size)), (x-size/2,y-size/2))
 
 def drawTiles(win, tileList):
-    #Goes through tiles and renders them in aproprate coordinate on the screen.
     for y, row in enumerate(tileList):
         for x, tile in enumerate(row):
             worldX, worldY = indexToCoordinates(x, y)

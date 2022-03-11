@@ -20,10 +20,27 @@ def isCitizenSelected():
     if not tiles[selected[1]][selected[0]].containsCitizen(): return False
     return True
 
+def isNonCitizenSelected():
+    if selected == None: return False
+    if not tiles[selected[1]][selected[0]].containsNonCitizen(): return False
+    return True
+
 def availableTiles(x, y):
     return [(x + offsetX, y + offsetY)
            for offsetX, offsetY in [(-1, 0), (1,0), ((y%2),1), ((y%2)-1, 1), ((y%2),-1), ((y%2)-1, -1)]
            if tiles[y + offsetY][x + offsetX].totalTileCost() != None]
+
+def selectedCitizen():
+    if selected == None: return None
+    x, y = selected
+    selectedTile = tiles[y][x]
+    return selectedTile.getCitizenInTile()
+
+def selectedTileType():
+    if selected == None: return None
+    x, y = selected
+    selectedTile = tiles[y][x]
+    return selectedTile.getNonCitizen()
 
 def moveCitizen(x, y, toX, toY):
     selectedTile = tiles[y][x]
@@ -134,4 +151,24 @@ def knownBuildings(citizen):
 
 def spawnCitizen(house):
     tileContainingTileType(house).spawnCitizen()
+
+#Text elements
+def actionButtonText():
+    return "Next Turn" if len(actionQueue()) == 0 else "Next Citizen"
+
+def actionPointTxt():
+    citizen = selectedCitizen()
+    return f"Action points: {citizen.movementPoints}/{citizen.movement}"
+
+def healthPointTxt():
+    citizen = selectedCitizen()
+    return f"Health points: {citizen.hp}/{citizen.totalHp}"
+
+def hungerStatusTxt():
+    citizen = selectedCitizen()
+    return f"Hunger status: {citizen.hungerPoints} ({citizen.hungerStatus()})"
+
+def citizenActionButtonTxt():
+    return selectedTileType().actionText
+
 

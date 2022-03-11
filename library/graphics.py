@@ -19,6 +19,8 @@ worldImgSize = 40
 worldTileSideLength = 30
 worldTileWidth = worldTileSideLength/2 * 3**(1/2)
 
+hovered = None
+
 #Coordinate translation
 def imgSize():
     return worldImgSize*zoom
@@ -119,6 +121,8 @@ def drawWorld(win):
         drawMoves(win, availableTiles(*getSelected()))
 
 def drawUI(win, x, y):
+    global hovered
+    hovered = worldFuncWithScreen(coordinatesToIndex, x, y)
     #Update UI
 
     ##Hide/Show citizen menu
@@ -133,26 +137,16 @@ def drawUI(win, x, y):
     if buildMenuIsHidden:
         updateBuildButtons(None)
 
-    UIComponent("actionButton").setText(1, f"Turn {getTurn()}")
-
-    hoveredX, hoveredY = worldFuncWithScreen(coordinatesToIndex, x, y)
-    hoveredTile = tiles[hoveredY][hoveredX]
-    UIComponent("actionButton").setText(2, hoveredTile.info())
-    
     if getSelected() != None:
         selectedTile = tiles[getSelected()[1]][getSelected()[0]]
         if selectedTile.containsCitizen():
             citizen = selectedTile.getCitizenInTile()
-            UIComponent("citizenMenu").setText(0, f"Action points: {citizen.movementPoints}/{citizen.movement}")
-            UIComponent("citizenMenu").setText(1, f"Health points: {citizen.hp}/{citizen.totalHp}")
-            UIComponent("citizenMenu").setText(2, f"Hunger status: {citizen.hungerPoints} ({citizen.hungerStatus()})")
             lockButtonImg = 1 if citizen.isLocked else 0
             UIComponent("lockButton").setImg(lockButtonImg)
 
         if selectedTile.containsNonCitizen():
             tileType = selectedTile.getNonCitizen()
             UIComponent("citizenActionButton").isHidden = isHidden or tileType.actionText == None
-            UIComponent("citizenActionButton").setText(0, tileType.actionText)
             UIComponent("buildMenuButton").isHidden = True
             if isinstance(tileType, House) and not isHidden:
                 if not tileType.isBuilt:
@@ -166,12 +160,6 @@ def drawUI(win, x, y):
             and not selectedTile.containsNonCitizen()
             and not buildMenuIsHidden):
             updateBuildButtons(selectedTile.getCitizenInTile())
-
-    UIComponent("resourceBar").setText(0, str(currentPlayer.wood))
-    UIComponent("resourceBar").setText(1, str(currentPlayer.stone))
-
-    actionButtonText = "Next Turn" if len(actionQueue()) == 0 else "Next Citizen"
-    UIComponent("actionButton").setText(0, actionButtonText)
 
     #Render UI
     for ui in UIComponents():
@@ -238,4 +226,10 @@ def rightClick(win, pos):
     rightClickedTile = worldFuncWithScreen(coordinatesToIndex, *pos)
     moveCitizen(*getSelected(), *rightClickedTile)
 
+#MISC
+
+def hoveredTileInfo():
+    if hovered == None: return ""
+    hoveredX, hoveredY = hovered
+    return tiles[hoveredY][hoveredX].info()
 

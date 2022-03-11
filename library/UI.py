@@ -1,6 +1,6 @@
 import pygame
 import os
-from library.gamelogic import actionButton, idle, selectedCitizenAction, lockAction, buildHouse, buildSawMill, getTurn, actionButtonText, isCitizenSelected, actionPointTxt, healthPointTxt, hungerStatusTxt, isNonCitizenSelected, citizenActionButtonTxt
+from library.gamelogic import actionButton, idle, selectedCitizenAction, lockAction, buildHouse, buildSawMill, getTurn, actionButtonText, isCitizenSelected, actionPointTxt, healthPointTxt, hungerStatusTxt, isNonCitizenSelected, citizenActionButtonTxt, isCitizenMenuHidden, isCitizenActionButtonHidden, isBuildMenuButtonHidden, isBuildMenuHidden
 from library.settings import width, height, eggWhite
 from library.Player import currentPlayer
 
@@ -14,7 +14,10 @@ class UI:
 
     isToggle = False
     isPressed = False
-    isHidden = False
+    isHidden = staticmethod(lambda: False)
+
+    def setIsHidden(self, predicate):
+        self.isHidden = staticmethod(predicate)
 
     def addClickableRect(self, rect, func):
         self.clickableRects.append((rect, func))
@@ -32,7 +35,6 @@ class UI:
     def setImg(self, i):
         if len(self.imgVersions) > i:
             self.img = self.imgVersions[i]
-
     def toggleImg(self):
         if self.img == self.imgVersions[0]:
             self.img = self.imgVersions[1]
@@ -48,7 +50,7 @@ class UI:
                 text["text"] = text["updatedText"]()
 
     def render(self, win):
-        if self.isHidden: return
+        if self.isHidden(): return
 
         win.blit(self.img, self.imgRect)
 
@@ -96,6 +98,7 @@ def makeActionButton():
 def makeIdleButton():
     idleButtonUI = UI("idlebutton.png", 193, height-421+361)
     idleButtonUI.addClickableRect(pygame.Rect(193, height-421+361, 39, 39), idle) 
+    idleButtonUI.setIsHidden(isCitizenMenuHidden)
     return idleButtonUI
 
 def makeResourceBar():
@@ -112,40 +115,46 @@ def makeCitizenMenu():
     citizenMenuUI.addText("Action points: ", 15, (7, height-370), isCitizenSelected, actionPointTxt)
     citizenMenuUI.addText("Health points: ", 15, (7, height-350), isCitizenSelected, healthPointTxt) 
     citizenMenuUI.addText("Hunger status: ", 15, (7, height-330), isCitizenSelected, hungerStatusTxt)
+    citizenMenuUI.setIsHidden(isCitizenMenuHidden)
     return citizenMenuUI
 
 def makeCitizenActionButton():
     citizenActionButtonUI = UI("citizenactionbutton.png", 14, height-421+361)
     citizenActionButtonUI.addClickableRect(citizenActionButtonUI.imgRect, selectedCitizenAction)
     citizenActionButtonUI.addText("", 15, (24, height-421+370), isNonCitizenSelected, citizenActionButtonTxt)
+    citizenActionButtonUI.setIsHidden(isCitizenActionButtonHidden)
     return citizenActionButtonUI
 
 def makeBuildMenuButton():
     buildMenuButtonUI = UI("buildmenuicon.png", 193, height-421+300)
     buildMenuButtonUI.addClickableRect(buildMenuButtonUI.imgRect, doNothing)
     buildMenuButtonUI.isToggle = True
+    buildMenuButtonUI.setIsHidden(isBuildMenuButtonHidden)
     return buildMenuButtonUI
 
 def makeLockButton():
     lockButtonUI = UI("lockiconunlocked.png", 193, height-421+25)
     lockButtonUI.addClickableRect(lockButtonUI.imgRect, lockAction)
     lockButtonUI.isToggle = True
+    lockButtonUI.setIsHidden(isCitizenMenuHidden)
     return lockButtonUI
 
 def makeBuildMenu():
     buildMenuUI = UI("buildmenu.png", 260, height-421+8)
     buildMenuUI.addClickableRect(buildMenuUI.imgRect, doNothing)
+    buildMenuUI.setIsHidden(isBuildMenuHidden)
     return buildMenuUI
 
 def makeHouseButton():
     houseButtonUI = UI("buildhouseicon.png", 260+9, height-421+8+3+9)
     houseButtonUI.addClickableRect(houseButtonUI.imgRect, buildHouse)
+    houseButtonUI.setIsHidden(isBuildMenuHidden)
     return houseButtonUI
 
 def makeSawMillButton():
     sawMillButtonUI = UI("buildsawmillicon.png", 260+9, height-421+8+3+9+9+40)
-    sawMillButtonUI.addImg("buildsawmillicon.png")
     sawMillButtonUI.addClickableRect(sawMillButtonUI.imgRect, buildSawMill)
+    sawMillButtonUI.setIsHidden(isBuildMenuHidden)
     return sawMillButtonUI
 
 uiComponents = {}

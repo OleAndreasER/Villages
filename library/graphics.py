@@ -123,19 +123,8 @@ def drawWorld(win):
 def drawUI(win, x, y):
     global hovered
     hovered = worldFuncWithScreen(coordinatesToIndex, x, y)
+
     #Update UI
-
-    ##Hide/Show citizen menu
-    isHidden = getSelected() == None or not tiles[getSelected()[1]][getSelected()[0]].containsCitizen()
-    
-    for citizenMenuComponent in citizenMenuComponents():
-        citizenMenuComponent.isHidden = isHidden
-
-    buildMenuIsHidden = isHidden or not UIComponent("buildMenuButton").isPressed
-    UIComponent("buildMenu").isHidden = buildMenuIsHidden
-
-    if buildMenuIsHidden:
-        updateBuildButtons(None)
 
     if getSelected() != None:
         selectedTile = tiles[getSelected()[1]][getSelected()[0]]
@@ -143,23 +132,6 @@ def drawUI(win, x, y):
             citizen = selectedTile.getCitizenInTile()
             lockButtonImg = 1 if citizen.isLocked else 0
             UIComponent("lockButton").setImg(lockButtonImg)
-
-        if selectedTile.containsNonCitizen():
-            tileType = selectedTile.getNonCitizen()
-            UIComponent("citizenActionButton").isHidden = isHidden or tileType.actionText == None
-            UIComponent("buildMenuButton").isHidden = True
-            if isinstance(tileType, House) and not isHidden:
-                if not tileType.isBuilt:
-                    UIComponent("houseButton").isHidden = False
-                    UIComponent("houseButton").imgRect.topleft = (193, height-421+300)
-
-        else:
-            UIComponent("citizenActionButton").isHidden = True
-
-        if (selectedTile.containsCitizen()
-            and not selectedTile.containsNonCitizen()
-            and not buildMenuIsHidden):
-            updateBuildButtons(selectedTile.getCitizenInTile())
 
     #Render UI
     for ui in UIComponents():
@@ -204,7 +176,7 @@ def changeZoom(direction, pos):
 def leftClick(win, pos):
     for ui in reversed(UIComponents()):
         #Reverse because components render bottom up, while clickable areas should be checked top down.
-        if ui.isHidden: continue
+        if ui.isHidden(): continue
 
         isClicked = ui.click(*pos)
         if isClicked:

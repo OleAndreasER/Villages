@@ -171,4 +171,18 @@ def hungerStatusTxt():
 def citizenActionButtonTxt():
     return selectedTileType().actionText
 
+#UI visibility
+def isCitizenMenuHidden():
+    return not isCitizenSelected()
 
+def isCitizenActionButtonHidden():
+    return (isCitizenMenuHidden()
+            or not isNonCitizenSelected()
+            or selectedNonCitizen().actionText == None)
+
+def isBuildMenuButtonHidden():
+    return (isCitizenMenuHidden()
+            or isNonCitizenSelected())
+
+def isBuildMenuHidden():
+    return True

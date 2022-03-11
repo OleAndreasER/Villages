@@ -125,7 +125,6 @@ def drawUI(win, x, y):
     hovered = worldFuncWithScreen(coordinatesToIndex, x, y)
 
     #Update UI
-
     if getSelected() != None:
         selectedTile = tiles[getSelected()[1]][getSelected()[0]]
         if selectedTile.containsCitizen():

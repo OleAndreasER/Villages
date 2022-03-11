@@ -1,6 +1,6 @@
 import pygame
 import os
-from library.gamelogic import actionButton, idle, selectedCitizenAction, lockAction, buildHouse, buildSawMill, getTurn, actionButtonText, isCitizenSelected, actionPointTxt, healthPointTxt, hungerStatusTxt, isNonCitizenSelected, citizenActionButtonTxt, isCitizenMenuHidden, isCitizenActionButtonHidden, isBuildMenuButtonHidden, isBuildMenuHidden
+from library.gamelogic import actionButton, idle, selectedCitizenAction, lockAction, buildHouse, buildSawMill, getTurn, actionButtonText, isCitizenSelected, actionPointTxt, healthPointTxt, hungerStatusTxt, isNonCitizenSelected, citizenActionButtonTxt, isCitizenMenuHidden, isCitizenActionButtonHidden, isBuildMenuButtonHidden
 from library.settings import width, height, eggWhite
 from library.Player import currentPlayer
 
@@ -35,6 +35,7 @@ class UI:
     def setImg(self, i):
         if len(self.imgVersions) > i:
             self.img = self.imgVersions[i]
+
     def toggleImg(self):
         if self.img == self.imgVersions[0]:
             self.img = self.imgVersions[1]
@@ -134,6 +135,7 @@ def makeBuildMenuButton():
 
 def makeLockButton():
     lockButtonUI = UI("lockiconunlocked.png", 193, height-421+25)
+    lockButtonUI.addImg("lockicon.png")
     lockButtonUI.addClickableRect(lockButtonUI.imgRect, lockAction)
     lockButtonUI.isToggle = True
     lockButtonUI.setIsHidden(isCitizenMenuHidden)
@@ -206,3 +208,6 @@ def doNothing(): #For clickable UI rects that don't don't do anything (ex. menu 
 
 def true(): #True as a function for updating UI
     return True
+
+def isBuildMenuHidden():
+    return isCitizenMenuHidden() or not UIComponent("buildMenuButton").isPressed

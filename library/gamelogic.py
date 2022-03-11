@@ -178,11 +178,10 @@ def isCitizenMenuHidden():
 def isCitizenActionButtonHidden():
     return (isCitizenMenuHidden()
             or not isNonCitizenSelected()
-            or selectedNonCitizen().actionText == None)
+            or selectedTileType().actionText == None)
 
 def isBuildMenuButtonHidden():
     return (isCitizenMenuHidden()
             or isNonCitizenSelected())
 
-def isBuildMenuHidden():
-    return True
+

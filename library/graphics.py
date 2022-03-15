@@ -121,6 +121,7 @@ def drawWorld(win):
         drawMoves(win, availableTiles(*getSelected()))
 
 def drawUI(win, x, y):
+    #Hovered is for tile info UI
     global hovered
     hovered = worldFuncWithScreen(coordinatesToIndex, x, y)
 
@@ -132,6 +133,7 @@ def drawUI(win, x, y):
     for ui in UIComponents():
         ui.render(win)
 
+#!Outdated
 def updateBuildButtons(citizen):
     if citizen == None:
         for buildingButton in buildButtonComponents():
@@ -142,6 +144,7 @@ def updateBuildButtons(citizen):
         button = UIComponent(building.buildButton)
         button.imgRect.topleft = (269, height-401+49*i)
         button.isHidden = False
+#
 
 def resetToggles():
     for ui in UIComponents():

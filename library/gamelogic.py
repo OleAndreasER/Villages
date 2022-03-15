@@ -184,4 +184,5 @@ def isBuildMenuButtonHidden():
     return (isCitizenMenuHidden()
             or isNonCitizenSelected())
 
-
+def isBuildingKnown(buildingStr):
+    return buildingStr in selectedCitizen().knownTechnologies

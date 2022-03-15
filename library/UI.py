@@ -1,6 +1,6 @@
 import pygame
 import os
-from library.gamelogic import actionButton, idle, selectedCitizenAction, lockAction, buildHouse, buildSawMill, getTurn, actionButtonText, isCitizenSelected, actionPointTxt, healthPointTxt, hungerStatusTxt, isNonCitizenSelected, citizenActionButtonTxt, isCitizenMenuHidden, isCitizenActionButtonHidden, isBuildMenuButtonHidden
+from library.gamelogic import actionButton, idle, selectedCitizenAction, lockAction, buildHouse, buildSawMill, getTurn, actionButtonText, isCitizenSelected, actionPointTxt, healthPointTxt, hungerStatusTxt, isNonCitizenSelected, citizenActionButtonTxt, isCitizenMenuHidden, isCitizenActionButtonHidden, isBuildMenuButtonHidden, isBuildingKnown
 from library.settings import width, height, eggWhite
 from library.Player import currentPlayer
 
@@ -149,13 +149,13 @@ def makeBuildMenu():
 def makeHouseButton():
     houseButtonUI = UI("buildhouseicon.png", 260+9, height-421+8+3+9)
     houseButtonUI.addClickableRect(houseButtonUI.imgRect, buildHouse)
-    houseButtonUI.setIsHidden(isBuildMenuHidden)
+    houseButtonUI.setIsHidden(lambda: isBuildButtonHidden("house"))
     return houseButtonUI
 
 def makeSawMillButton():
     sawMillButtonUI = UI("buildsawmillicon.png", 260+9, height-421+8+3+9+9+40)
     sawMillButtonUI.addClickableRect(sawMillButtonUI.imgRect, buildSawMill)
-    sawMillButtonUI.setIsHidden(isBuildMenuHidden)
+    sawMillButtonUI.setIsHidden(lambda: isBuildButtonHidden("sawMill"))
     return sawMillButtonUI
 
 uiComponents = {}
@@ -201,12 +201,17 @@ def buildButtonComponents():
 def citizenMenuComponents():
     return citizenMenu.values()
 
-
 def doNothing(): #For clickable UI rects that don't don't do anything (ex. menu backgrounds).
     return
 
-def true(): #True as a function for updating UI
-    return True
+#UI visibility
 
 def isBuildMenuHidden():
-    return isCitizenMenuHidden() or not UIComponent("buildMenuButton").isPressed
+    return (isCitizenMenuHidden()
+            or not UIComponent("buildMenuButton").isPressed)
+
+def isBuildButtonHidden(buildingStr):
+    return (isBuildMenuHidden()
+            or not isBuildingKnown(buildingStr))
+
+

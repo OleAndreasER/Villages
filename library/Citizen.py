@@ -86,9 +86,10 @@ class Citizen:
         if any(isinstance(tileType, House) for tileType in tile.tileTypes):
             house = tile.getNonCitizen()
             house.build() 
+            self.useMovementPoints(10)
             if house.isBuilt: 
                 self.wakeUp()
-        else:
+        elif House.cost["wood"] <= self.owner.wood:
             tile.tileTypes.insert(0, House())
-        self.useMovementPoints(10)
+            self.owner.wood -= House.cost["wood"]
 

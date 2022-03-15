@@ -45,6 +45,7 @@ class Tile:
             self.getNonCitizen().build() 
         else:
             self.tileTypes.insert(0, House())
+        citizen.useMovementPoints(10)
 
     def info(self):
         tile = [tileType for tileType in self.tileTypes if not isinstance(tileType, Citizen)]

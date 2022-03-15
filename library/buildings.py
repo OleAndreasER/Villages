@@ -15,16 +15,16 @@ class House:
     cost = {"wood":10} 
     
     def endTurn(self):
-        from library.gamelogic import isCitizenInTileOfTileType
         if (self.isBuilt
             and not self.citizenIsSpawned
-            and not isCitizenInTileOfTileType(self)):
+            and not self.isOccupied()):
             from library.gamelogic import spawnCitizen
             spawnCitizen(self)
             self.citizenIsSpawned = True
 
     def isOccupied(self):
-        return 
+        from library.gamelogic import isCitizenInTileOfTileType
+        return isCitizenInTileOfTileType(self)
 
     def info(self):
         return "House"

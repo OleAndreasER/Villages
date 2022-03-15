@@ -30,17 +30,18 @@ def availableTiles(x, y):
            for offsetX, offsetY in [(-1, 0), (1,0), ((y%2),1), ((y%2)-1, 1), ((y%2),-1), ((y%2)-1, -1)]
            if tiles[y + offsetY][x + offsetX].totalTileCost() != None]
 
-def selectedCitizen():
+def selectedTile():
     if selected == None: return None
     x, y = selected
-    selectedTile = tiles[y][x]
-    return selectedTile.getCitizenInTile()
+    return tiles[y][x]
+
+def selectedCitizen():
+    if selected == None: return None
+    return selectedTile().getCitizenInTile()
 
 def selectedTileType():
     if selected == None: return None
-    x, y = selected
-    selectedTile = tiles[y][x]
-    return selectedTile.getNonCitizen()
+    return selectedTile().getNonCitizen()
 
 def moveCitizen(x, y, toX, toY):
     selectedTile = tiles[y][x]
@@ -111,10 +112,7 @@ def lockAction():
 
 def buildHouse():
     if not isCitizenSelected(): return
-    tile = tiles[selected[1]][selected[0]]
-    citizen = tile.getCitizenInTile()
-    tile.buildHouse(citizen)
-    
+    selectedTile().buildHouse(selectedCitizen())
 
 def buildSawMill():
     return

@@ -210,7 +210,9 @@ def isBuildMenuHidden():
             or not UIComponent("buildMenuButton").isPressed)
 
 def isBuildButtonHidden(buildingStr):
-    return (not isCitizenOnUnfinishedBuilding(buildingStr) and (
-            isBuildMenuHidden()
-            or not isBuildingKnown(buildingStr)))
+    if not isCitizenSelected(): return True
+    if not isBuildingKnown(buildingStr): return True
+    return (not isCitizenOnUnfinishedBuilding(buildingStr)
+            and isBuildMenuHidden())
+                
 

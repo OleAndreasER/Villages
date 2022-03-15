@@ -10,7 +10,7 @@ class Citizen:
     movementPoints = 1
     movement = 1
     owner = currentPlayer
-    knownTechnologies = ["mining", "replanting", "sawMill"]
+    knownTechnologies = ["mining", "replanting", "house", "sawMill"]
 
     def useMovementPoints(self, points):
         self.movementPoints -= points

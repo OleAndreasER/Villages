@@ -8,6 +8,7 @@ class House:
     movementCost = 0
     actionText = None
     buildButton = "houseButton"
+    buildingStr = "house"
     citizenIsSpawned = False
     buildPointsLeft = 5
     isBuilt = False
@@ -40,6 +41,7 @@ class SawMill:
     actionText = None
     buildButton = "sawMillButton"
     isBuilt = True
+    buildingStr = "sawMill"
 
     def endTurn(self):
         return

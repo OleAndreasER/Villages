@@ -2,7 +2,7 @@
 import pygame
 import pygame.gfxdraw
 import os
-from library.gamelogic import availableTiles, moveCitizen, getSelected, selectTile, actionButton, actionQueue, getTurn, knownBuildings, selectedCitizen, isCitizenSelected
+from library.gamelogic import availableTiles, moveCitizen, getSelected, selectTile, actionButton, actionQueue, getTurn, knownBuildings, selectedCitizen, isCitizenSelected, isCitizenOnUnfinishedBuilding
 from library.tiles import tiles
 from library.UI import UIComponents, UIComponent, textSurface, buildButtonComponents, citizenMenuComponents
 from library.settings import width, height, tileSelectColor, white, grassGreen, black
@@ -137,7 +137,10 @@ def drawUI(win, x, y):
 def updateBuildButtonPositions():
     for i, building in enumerate(knownBuildings(selectedCitizen())):
         button = UIComponent(building.buildButton)
-        button.imgRect.topleft = (269, height-401+49*i)
+        if isCitizenOnUnfinishedBuilding(building.buildingStr):
+            button.imgRect.topleft = (193, height-421+300)
+        else:
+            button.imgRect.topleft = (269, height-401+49*i)
 
 def resetToggles():
     for ui in UIComponents():

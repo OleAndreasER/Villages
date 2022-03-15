@@ -135,6 +135,9 @@ def tileContainingTileType(targetTileType):
                 return tile
     return None
 
+def isCitizenInTileOfTileType(tileType):
+    return tileContainingTileType(tileType).containsCitizen()
+
 def citizenAction(citizen, tile):
     citizen.latestAction = {"action": citizenAction, "args": (citizen, tile)}
     citizen.actOnTile(tile.getNonCitizen())

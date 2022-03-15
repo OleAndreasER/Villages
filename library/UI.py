@@ -22,11 +22,11 @@ class UI:
     def addClickableRect(self, rect, func):
         self.clickableRects.append((rect, func))
 
-    def addText(self, text, fontSize, pos, shouldUpdate, updatedText, location = "topLeft"):
+    def addText(self, text, fontSize, pos, updatedText, location = "topLeft"):
         self.textElements.append({
             "text":text, "location":location,
             "fontSize":fontSize, "pos":pos,
-            "shouldUpdate":shouldUpdate, "updatedText":updatedText
+            "updatedText":updatedText
         })
 
     def addImg(self, imgPath):
@@ -47,8 +47,7 @@ class UI:
 
     def updateTexts(self):
         for text in self.textElements:
-            if text["shouldUpdate"]():
-                text["text"] = text["updatedText"]()
+            text["text"] = text["updatedText"]()
 
     def render(self, win):
         if self.isHidden(): return
@@ -91,9 +90,9 @@ def makeActionButton():
     actionButtonUI.addClickableRect(actionButtonUI.imgRect, actionButton)
     actionButtonUI.addImg("actionbtnpressed.png")
 
-    actionButtonUI.addText("Next Turn", 50, (width-320, height-138), true, actionButtonText)
-    actionButtonUI.addText("Turn ", 20, (width-320, height-60), true, lambda: f"Turn {getTurn()}")
-    actionButtonUI.addText("", 20, (width-30, height-60), true, hoveredTileInfo, "topRight")
+    actionButtonUI.addText("Next Turn", 50, (width-320, height-138), actionButtonText)
+    actionButtonUI.addText("Turn ", 20, (width-320, height-60), lambda: f"Turn {getTurn()}")
+    actionButtonUI.addText("", 20, (width-30, height-60), hoveredTileInfo, "topRight")
     return actionButtonUI
 
 def makeIdleButton():
@@ -106,23 +105,23 @@ def makeResourceBar():
     resourceBarUI = UI("resourcebar.png", 0, 0)
     resourceBarUI.addClickableRect(resourceBarUI.imgRect, doNothing)
 
-    resourceBarUI.addText("0", 13, (65, 0), true, lambda: str(currentPlayer.wood))
-    resourceBarUI.addText("0", 13, (195, 0), true, lambda: str(currentPlayer.stone))
+    resourceBarUI.addText("0", 13, (65, 0), lambda: str(currentPlayer.wood))
+    resourceBarUI.addText("0", 13, (195, 0), lambda: str(currentPlayer.stone))
     return resourceBarUI
 
 def makeCitizenMenu():
     citizenMenuUI = UI("citizenmenu.png", 0, height-421)
     citizenMenuUI.addClickableRect(citizenMenuUI.imgRect, doNothing)
-    citizenMenuUI.addText("Action points: ", 15, (7, height-370), isCitizenSelected, actionPointTxt)
-    citizenMenuUI.addText("Health points: ", 15, (7, height-350), isCitizenSelected, healthPointTxt) 
-    citizenMenuUI.addText("Hunger status: ", 15, (7, height-330), isCitizenSelected, hungerStatusTxt)
+    citizenMenuUI.addText("Action points: ", 15, (7, height-370), actionPointTxt)
+    citizenMenuUI.addText("Health points: ", 15, (7, height-350), healthPointTxt) 
+    citizenMenuUI.addText("Hunger status: ", 15, (7, height-330), hungerStatusTxt)
     citizenMenuUI.setIsHidden(isCitizenMenuHidden)
     return citizenMenuUI
 
 def makeCitizenActionButton():
     citizenActionButtonUI = UI("citizenactionbutton.png", 14, height-421+361)
     citizenActionButtonUI.addClickableRect(citizenActionButtonUI.imgRect, selectedCitizenAction)
-    citizenActionButtonUI.addText("", 15, (24, height-421+370), isNonCitizenSelected, citizenActionButtonTxt)
+    citizenActionButtonUI.addText("", 15, (24, height-421+370), citizenActionButtonTxt)
     citizenActionButtonUI.setIsHidden(isCitizenActionButtonHidden)
     return citizenActionButtonUI
 

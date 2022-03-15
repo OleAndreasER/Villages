@@ -1,5 +1,4 @@
 from library.Citizen import Citizen
-from library.buildings import House
 
 class Tile:
     def __init__(self, *tileTypes):
@@ -39,13 +38,6 @@ class Tile:
 
     def spawnCitizen(self):
         self.tileTypes.append(Citizen())
-
-    def buildHouse(self, citizen):
-        if any(isinstance(tileType, House) for tileType in self.tileTypes):
-            self.getNonCitizen().build() 
-        else:
-            self.tileTypes.insert(0, House())
-        citizen.useMovementPoints(10)
 
     def info(self):
         tile = [tileType for tileType in self.tileTypes if not isinstance(tileType, Citizen)]

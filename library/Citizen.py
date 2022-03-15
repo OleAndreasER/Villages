@@ -2,6 +2,7 @@ import pygame
 import os
 from library.Player import currentPlayer
 from library.resourcetiles import Tree, Stone
+from library.buildings import House
 
 class Citizen:
     img = pygame.image.load(os.path.join("assets", "citizen.png"))
@@ -59,11 +60,11 @@ class Citizen:
     def isInQueue(self):
         return self.movementPoints > 0 and not self.isIdle and not self.isLocked
 
-    def actOnTile(self, tile):
-        if isinstance(tile, Tree):
-            self.chopWood(tile)
-        if isinstance(tile, Stone) and "mining" in self.knownTechnologies:
-            self.mine(tile)
+    def actOnTile(self, tileType):
+        if isinstance(tileType, Tree):
+            self.chopWood(tileType)
+        if isinstance(tileType, Stone) and "mining" in self.knownTechnologies:
+            self.mine(tileType)
 
     def chopWood(self, tree):
         wood = tree.getChopped(1, "replanting" in self.knownTechnologies)
@@ -79,5 +80,15 @@ class Citizen:
         resource = stone.getResourceType()
         if resource == "stone":
             self.owner.stone += 1
+        self.useMovementPoints(10)
+
+    def buildHouse(self, tile):
+        if any(isinstance(tileType, House) for tileType in tile.tileTypes):
+            house = tile.getNonCitizen()
+            house.build() 
+            if house.isBuilt: 
+                self.wakeUp()
+        else:
+            tile.tileTypes.insert(0, House())
         self.useMovementPoints(10)
 

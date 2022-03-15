@@ -74,8 +74,7 @@ def actionButton():
 def idle():
     global selected
     if not isCitizenSelected(): return
-    citizen = tiles[selected[1]][selected[0]].getCitizenInTile()
-    citizen.isIdle = True
+    selectedCitizen.isIdle = True
     selected = nextSelection()
 
 def endTurn():
@@ -112,7 +111,8 @@ def lockAction():
 
 def buildHouse():
     if not isCitizenSelected(): return
-    selectedTile().buildHouse(selectedCitizen())
+    selectedCitizen().latestAction = {"action": selectedCitizen().buildHouse, "args": [selectedTile()]}
+    selectedCitizen().buildHouse(selectedTile())
 
 def buildSawMill():
     return

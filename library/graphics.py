@@ -2,7 +2,7 @@
 import pygame
 import pygame.gfxdraw
 import os
-from library.gamelogic import availableTiles, moveCitizen, getSelected, selectTile, actionButton, actionQueue, getTurn, knownBuildings
+from library.gamelogic import availableTiles, moveCitizen, getSelected, selectTile, actionButton, actionQueue, getTurn, knownBuildings, selectedCitizen, isCitizenSelected
 from library.tiles import tiles
 from library.UI import UIComponents, UIComponent, textSurface, buildButtonComponents, citizenMenuComponents
 from library.settings import width, height, tileSelectColor, white, grassGreen, black
@@ -125,12 +125,8 @@ def drawUI(win, x, y):
     hovered = worldFuncWithScreen(coordinatesToIndex, x, y)
 
     #Update UI
-    if getSelected() != None:
-        selectedTile = tiles[getSelected()[1]][getSelected()[0]]
-        if selectedTile.containsCitizen():
-            citizen = selectedTile.getCitizenInTile()
-            lockButtonImg = 1 if citizen.isLocked else 0
-            UIComponent("lockButton").setImg(lockButtonImg)
+    if isCitizenSelected():
+        UIComponent("lockButton").setImg(1 if selectedCitizen().isLocked else 0)
 
     #Render UI
     for ui in UIComponents():

@@ -1,6 +1,6 @@
 import pygame
 import os
-from library.gamelogic import actionButton, idle, selectedCitizenAction, lockAction, buildHouse, buildSawMill, getTurn, actionButtonText, isCitizenSelected, actionPointTxt, healthPointTxt, hungerStatusTxt, isNonCitizenSelected, citizenActionButtonTxt, isCitizenMenuHidden, isCitizenActionButtonHidden, isBuildMenuButtonHidden, isBuildingKnown
+from library.gamelogic import actionButton, idle, selectedCitizenAction, lockAction, buildHouse, buildSawMill, getTurn, actionButtonText, isCitizenSelected, actionPointTxt, healthPointTxt, hungerStatusTxt, isNonCitizenSelected, citizenActionButtonTxt, isCitizenMenuHidden, isCitizenActionButtonHidden, isBuildMenuButtonHidden, isBuildingKnown, isCitizenOnUnfinishedBuilding
 from library.settings import width, height, eggWhite
 from library.Player import currentPlayer
 
@@ -207,11 +207,11 @@ def doNothing(): #For clickable UI rects that don't don't do anything (ex. menu 
 #UI visibility
 
 def isBuildMenuHidden():
-    return (isCitizenMenuHidden()
+    return (isBuildMenuButtonHidden()
             or not UIComponent("buildMenuButton").isPressed)
 
 def isBuildButtonHidden(buildingStr):
-    return (isBuildMenuHidden()
-            or not isBuildingKnown(buildingStr))
-
+    return (not isCitizenOnUnfinishedBuilding(buildingStr) and (
+            isBuildMenuHidden()
+            or not isBuildingKnown(buildingStr)))
 

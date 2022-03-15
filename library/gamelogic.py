@@ -186,3 +186,9 @@ def isBuildMenuButtonHidden():
 
 def isBuildingKnown(buildingStr):
     return buildingStr in selectedCitizen().knownTechnologies
+
+def isCitizenOnUnfinishedBuilding(buildingStr):
+    return (isCitizenSelected()
+            and isinstance(selectedTileType(), techToBuilding[buildingStr])
+            and not selectedTileType().isBuilt)
+

@@ -32,13 +32,14 @@ class House:
 
     def finish(self):
         self.img = self.houseImg
-        isBuilt = True
+        self.isBuilt = True
 
 class SawMill:
     img = pygame.image.load(os.path.join("assets", "sawmill.png"))
     movementCost = 0
     actionText = None
     buildButton = "sawMillButton"
+    isBuilt = True
 
     def endTurn(self):
         return

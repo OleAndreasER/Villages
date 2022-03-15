@@ -128,23 +128,16 @@ def drawUI(win, x, y):
     #Update UI
     if isCitizenSelected():
         UIComponent("lockButton").setImg(1 if selectedCitizen().isLocked else 0)
+        updateBuildButtonPositions()
 
     #Render UI
     for ui in UIComponents():
         ui.render(win)
 
-#!Outdated
-def updateBuildButtons(citizen):
-    if citizen == None:
-        for buildingButton in buildButtonComponents():
-            buildingButton.isHidden = True
-        return
-    
-    for i, building in enumerate(knownBuildings(citizen)):
+def updateBuildButtonPositions():
+    for i, building in enumerate(knownBuildings(selectedCitizen())):
         button = UIComponent(building.buildButton)
         button.imgRect.topleft = (269, height-401+49*i)
-        button.isHidden = False
-#
 
 def resetToggles():
     for ui in UIComponents():

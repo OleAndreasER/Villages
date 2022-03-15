@@ -205,7 +205,6 @@ def doNothing(): #For clickable UI rects that don't don't do anything (ex. menu 
     return
 
 #UI visibility
-
 def isBuildMenuHidden():
     return (isBuildMenuButtonHidden()
             or not UIComponent("buildMenuButton").isPressed)

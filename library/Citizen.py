@@ -3,6 +3,7 @@ import os
 from library.Player import currentPlayer
 from library.resourcetiles import Tree, Stone
 from library.buildings import House
+from library.foodtiles import BlueberryBush
 
 class Citizen:
     img = pygame.image.load(os.path.join("assets", "citizen.png"))
@@ -65,6 +66,8 @@ class Citizen:
             self.chopWood(tileType)
         if isinstance(tileType, Stone) and "mining" in self.knownTechnologies:
             self.mine(tileType)
+        if isinstance(tileType, BlueberryBush):
+            self.eat(tileType)
 
     def chopWood(self, tree):
         wood = tree.getChopped(1, "replanting" in self.knownTechnologies)
@@ -92,4 +95,10 @@ class Citizen:
         elif self.owner.hasResources(House.cost):
             tile.contents.insert(0, House())
             self.owner.spend(House.cost)
+
+    def eat(self, foodTile):
+        self.hungerPoints += foodTile.saturation
+        if self.hungerPoints > 30: self.hungerPoints = 30
+        foodTile.getEaten()
+
 

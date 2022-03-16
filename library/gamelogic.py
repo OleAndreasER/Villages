@@ -68,7 +68,6 @@ def actionButton(): #Next turn/Next citizen
         selectTile(actionQueue()[0])
 
 def idle():
-    global selected
     if not isCitizenSelected(): return
     selectedCitizen().isIdle = True
     selectTile(nextSelection())
@@ -80,25 +79,14 @@ def endTurn():
         for tile in row:
             tile.endTurn()
 
-def actionQueue():
-    return [(x,y)
-            for x in range(len(tiles[0]))
-            for y in range(len(tiles))
-            if tiles[y][x].containsCitizen()
-            if tiles[y][x].getCitizen().isInQueue()]
-
 def selectedCitizenAction():
-    global selected
     if not isCitizenSelected(): return
-    tile = tiles[selected[1]][selected[0]]
-    if (not tile.containsCitizen()
-        or not tile.containsTileType()
-        or tile.getCitizen().actionPoints == 0):
-        return
-    if (tile.getTileType().actionText == None): return
+    if not isTileTypeSelected(): return
+    if selectedCitizen().actionPoints == 0: return
+    if (selectedTileType().actionText == None): return
 
-    citizenAction(tile.getCitizen(), tile)
-    selected = nextSelection()
+    citizenAction(selectedCitizen(), selectedTile())
+    selectTile(nextSelection())
 
 def lockAction():
     if not isCitizenSelected(): return
@@ -152,7 +140,6 @@ def isCitizenOnUnfinishedBuilding(buildingStr):
     return (isCitizenSelected()
             and isinstance(selectedTileType(), techToBuilding[buildingStr])
             and not selectedTileType().isBuilt)
-
 #
 
 def removeFromTiles(targetTileType):
@@ -188,3 +175,10 @@ def knownBuildings(citizen):
 
 def spawnCitizen(house):
     tileContainingTileType(house).spawnCitizen()
+
+def actionQueue():
+    return [(x,y)
+            for x in range(len(tiles[0]))
+            for y in range(len(tiles))
+            if tiles[y][x].containsCitizen()
+            if tiles[y][x].getCitizen().isInQueue()]

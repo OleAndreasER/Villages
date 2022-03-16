@@ -1,6 +1,6 @@
 import pygame
 import os
-from library.gamelogic import actionButton, idle, selectedCitizenAction, lockAction, buildHouse, buildSawMill, getTurn, actionButtonText, isCitizenSelected, actionPointTxt, healthPointTxt, hungerStatusTxt, isNonCitizenSelected, citizenActionButtonTxt, isCitizenMenuHidden, isCitizenActionButtonHidden, isBuildMenuButtonHidden, isBuildingKnown, isCitizenOnUnfinishedBuilding
+from library.gamelogic import actionButton, idle, selectedCitizenAction, lockAction, buildHouse, buildSawMill, getTurn, actionButtonText, isCitizenSelected, actionPointTxt, healthPointTxt, hungerStatusTxt, isTileTypeSelected, citizenActionButtonTxt, isCitizenMenuHidden, isCitizenActionButtonHidden, isBuildMenuButtonHidden, isBuildingKnown, isCitizenOnUnfinishedBuilding
 from library.settings import width, height, eggWhite
 from library.Player import currentPlayer
 

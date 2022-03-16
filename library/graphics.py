@@ -96,7 +96,7 @@ def drawTiles(win, tileList):
             worldX, worldY = indexToCoordinates(x, y)
             screenX, screenY = worldToScreen(worldX, worldY)
             drawTileOutline(win, screenX, screenY)
-            for tileType in tile.tileTypes:
+            for tileType in tile.contents:
                 drawImgOnTile(win, screenX, screenY, tileType.img.convert_alpha(), imgSize())
 
 def drawMoves(win, tileIndecies):
@@ -116,7 +116,7 @@ def drawWorld(win):
         selectedTile = tiles[getSelected()[1]][getSelected()[0]]
         
         if not selectedTile.containsCitizen(): return
-        if selectedTile.getCitizenInTile().movementPoints == 0: return
+        if selectedTile.getCitizen().movementPoints == 0: return
 
         drawMoves(win, availableTiles(*getSelected()))
 

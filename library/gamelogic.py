@@ -20,9 +20,9 @@ def isCitizenSelected():
     if not tiles[selected[1]][selected[0]].containsCitizen(): return False
     return True
 
-def isNonCitizenSelected():
+def isTileTypeSelected():
     if selected == None: return False
-    if not tiles[selected[1]][selected[0]].containsNonCitizen(): return False
+    if not tiles[selected[1]][selected[0]].containsTileType(): return False
     return True
 
 def availableTiles(x, y):
@@ -37,16 +37,16 @@ def selectedTile():
 
 def selectedCitizen():
     if selected == None: return None
-    return selectedTile().getCitizenInTile()
+    return selectedTile().getCitizen()
 
 def selectedTileType():
     if selected == None: return None
-    return selectedTile().getNonCitizen()
+    return selectedTile().getTileType()
 
 def moveCitizen(x, y, toX, toY):
     selectedTile = tiles[y][x]
 
-    citizen = selectedTile.getCitizenInTile()
+    citizen = selectedTile.getCitizen()
     
     if citizen == None: return
     if citizen.movementPoints == 0: return
@@ -56,7 +56,7 @@ def moveCitizen(x, y, toX, toY):
 
     citizen.useMovementPoints(tiles[toY][toX].totalTileCost())
 
-    tiles[toY][toX].tileTypes.append(citizen)
+    tiles[toY][toX].contents.append(citizen)
 
     selectTile(toX, toY)
 
@@ -89,24 +89,24 @@ def actionQueue():
             for x in range(len(tiles[0]))
             for y in range(len(tiles))
             if tiles[y][x].containsCitizen()
-            if tiles[y][x].getCitizenInTile().isInQueue()]
+            if tiles[y][x].getCitizen().isInQueue()]
 
 def selectedCitizenAction():
     global selected
     if not isCitizenSelected(): return
     tile = tiles[selected[1]][selected[0]]
     if (not tile.containsCitizen()
-        or not tile.containsNonCitizen()
-        or tile.getCitizenInTile().movementPoints == 0):
+        or not tile.containsTileType()
+        or tile.getCitizen().movementPoints == 0):
         return
-    if (tile.getNonCitizen().actionText == None): return
+    if (tile.getTileType().actionText == None): return
 
-    citizenAction(tile.getCitizenInTile(), tile)
+    citizenAction(tile.getCitizen(), tile)
     selected = nextSelection()
 
 def lockAction():
     if not isCitizenSelected(): return
-    citizen = tiles[selected[1]][selected[0]].getCitizenInTile()
+    citizen = tiles[selected[1]][selected[0]].getCitizen()
     citizen.toggleLock()
 
 def buildHouse():
@@ -122,14 +122,14 @@ def buildSawMill():
 def removeFromTiles(targetTileType):
     for row in tiles:
         for tile in row:
-            tile.tileTypes = [tileType
-                              for tileType in tile.tileTypes
+            tile.contents = [tileType
+                              for tileType in tile.contents
                               if not tileType is targetTileType]
 
 def tileContainingTileType(targetTileType):
     for row in tiles:
         for tile in row:
-            if any(tileType is targetTileType for tileType in tile.tileTypes):
+            if any(tileType is targetTileType for tileType in tile.contents):
                 return tile
     return None
 
@@ -138,7 +138,7 @@ def isCitizenInTileOfTileType(tileType):
 
 def citizenAction(citizen, tile):
     citizen.latestAction = {"action": citizenAction, "args": (citizen, tile)}
-    citizen.actOnTile(tile.getNonCitizen())
+    citizen.actOnTile(tile.getTileType())
 
 techToBuilding = {
     "house": House,
@@ -178,12 +178,12 @@ def isCitizenMenuHidden():
 
 def isCitizenActionButtonHidden():
     return (isCitizenMenuHidden()
-            or not isNonCitizenSelected()
+            or not isTileTypeSelected()
             or selectedTileType().actionText == None)
 
 def isBuildMenuButtonHidden():
     return (isCitizenMenuHidden()
-            or isNonCitizenSelected())
+            or isTileTypeSelected())
 
 def isBuildingKnown(buildingStr):
     return buildingStr in selectedCitizen().knownTechnologies

@@ -68,7 +68,7 @@ class Citizen:
 
     def chopWood(self, tree):
         wood = tree.getChopped(1, "replanting" in self.knownTechnologies)
-        self.owner.wood += wood
+        self.owner.resources["wood"] += wood
 
         if tree.woodLeft == 0:
             self.wakeUp()
@@ -79,7 +79,7 @@ class Citizen:
     def mine(self, stone):
         resource = stone.getResourceType()
         if resource == "stone":
-            self.owner.stone += 1
+            self.owner.resources["stone"] += 1
         self.useActionPoints(10)
 
     def buildHouse(self, tile):
@@ -89,7 +89,7 @@ class Citizen:
             self.useActionPoints(10)
             if house.isBuilt: 
                 self.wakeUp()
-        elif House.cost["wood"] <= self.owner.wood:
+        elif self.owner.hasResources(House.cost):
             tile.contents.insert(0, House())
-            self.owner.wood -= House.cost["wood"]
+            self.owner.spend(House.cost)
 

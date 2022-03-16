@@ -105,8 +105,8 @@ def makeResourceBar():
     resourceBarUI = UI("resourcebar.png", 0, 0)
     resourceBarUI.addClickableRect(resourceBarUI.imgRect, doNothing)
 
-    resourceBarUI.addText("0", 13, (65, 0), lambda: str(currentPlayer.wood))
-    resourceBarUI.addText("0", 13, (195, 0), lambda: str(currentPlayer.stone))
+    resourceBarUI.addText("0", 13, (65, 0), lambda: str(currentPlayer.resources["wood"]))
+    resourceBarUI.addText("0", 13, (195, 0), lambda: str(currentPlayer.resources["stone"]))
     return resourceBarUI
 
 def makeCitizenMenu():

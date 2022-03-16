@@ -1,39 +1,29 @@
 from library.tiles import tiles
 from library.buildings import House, SawMill
 
-#Selected tile's index
-selected = None
+#Turn
 turn = 1
-
 def getTurn():
     return turn
 
+#Selected
+selected = None #selected tile index
 def getSelected():
     return selected
-
-def selectTile(x, y):
-    global selected
-    selected = (x, y) 
-
-def isCitizenSelected():
-    if selected == None: return False
-    if not tiles[selected[1]][selected[0]].containsCitizen(): return False
-    return True
-
-def isTileTypeSelected():
-    if selected == None: return False
-    if not tiles[selected[1]][selected[0]].containsTileType(): return False
-    return True
-
-def availableTiles(x, y):
-    return [(x + offsetX, y + offsetY)
-           for offsetX, offsetY in [(-1, 0), (1,0), ((y%2),1), ((y%2)-1, 1), ((y%2),-1), ((y%2)-1, -1)]
-           if tiles[y + offsetY][x + offsetX].totalTileCost() != None]
 
 def selectedTile():
     if selected == None: return None
     x, y = selected
     return tiles[y][x]
+
+def selectTile(newSelection):
+    global selected
+    selected = newSelection
+
+def isCitizenSelected():
+    if selected == None: return False
+    if not selectedTile().containsCitizen(): return False
+    return True
 
 def selectedCitizen():
     if selected == None: return None
@@ -43,39 +33,45 @@ def selectedTileType():
     if selected == None: return None
     return selectedTile().getTileType()
 
-def moveCitizen(x, y, toX, toY):
-    selectedTile = tiles[y][x]
-
-    citizen = selectedTile.getCitizen()
-    
-    if citizen == None: return
-    if citizen.movementPoints == 0: return
-    if not (toX, toY) in availableTiles(x, y): return
-
-    selectedTile.popCitizenInTile()
-
-    citizen.useMovementPoints(tiles[toY][toX].totalTileCost())
-
-    tiles[toY][toX].contents.append(citizen)
-
-    selectTile(toX, toY)
+def isTileTypeSelected():
+    if selected == None: return False
+    if not selectedTile().containsTileType(): return False
+    return True
 
 def nextSelection():
     return None if len(actionQueue()) == 0 else actionQueue()[0]
 
+#Citizen movement
+def availableTiles(x, y): #Available for citizen to move to
+    return [(x + offsetX, y + offsetY)
+           for offsetX, offsetY in [(-1, 0), (1,0), ((y%2),1), ((y%2)-1, 1), ((y%2),-1), ((y%2)-1, -1)]
+           if tiles[y + offsetY][x + offsetX].totalTileCost() != None]
+
+def moveCitizen(x, y, toX, toY):
+    selectedTile = tiles[y][x]
+    citizen = selectedTile.getCitizen()
+    
+    if citizen == None: return
+    if citizen.actionPoints == 0: return
+    if not (toX, toY) in availableTiles(x, y): return
+
+    selectedTile.popCitizenInTile()
+    citizen.useActionPoints(tiles[toY][toX].totalTileCost())
+    tiles[toY][toX].contents.append(citizen)
+    selectTile((toX, toY))
 
 #Actions tied to keybinds/mouse clicks
-def actionButton():
+def actionButton(): #Next turn/Next citizen
     if len(actionQueue()) == 0:
         endTurn()
     else:
-        selectTile(*actionQueue()[0])
+        selectTile(actionQueue()[0])
 
 def idle():
     global selected
     if not isCitizenSelected(): return
-    selectedCitizen.isIdle = True
-    selected = nextSelection()
+    selectedCitizen().isIdle = True
+    selectTile(nextSelection())
 
 def endTurn():
     global turn
@@ -97,7 +93,7 @@ def selectedCitizenAction():
     tile = tiles[selected[1]][selected[0]]
     if (not tile.containsCitizen()
         or not tile.containsTileType()
-        or tile.getCitizen().movementPoints == 0):
+        or tile.getCitizen().actionPoints == 0):
         return
     if (tile.getTileType().actionText == None): return
 
@@ -116,6 +112,46 @@ def buildHouse():
 
 def buildSawMill():
     return
+
+#Text elements
+def actionButtonText():
+    return "Next Turn" if len(actionQueue()) == 0 else "Next Citizen"
+
+def actionPointTxt():
+    citizen = selectedCitizen()
+    return f"Action points: {citizen.actionPoints}/{citizen.totalActionPoints}"
+
+def healthPointTxt():
+    citizen = selectedCitizen()
+    return f"Health points: {citizen.hp}/{citizen.totalHp}"
+
+def hungerStatusTxt():
+    citizen = selectedCitizen()
+    return f"Hunger status: {citizen.hungerPoints} ({citizen.hungerStatus()})"
+
+def citizenActionButtonTxt():
+    return selectedTileType().actionText
+
+#UI visibility
+def isCitizenMenuHidden():
+    return not isCitizenSelected()
+
+def isCitizenActionButtonHidden():
+    return (isCitizenMenuHidden()
+            or not isTileTypeSelected()
+            or selectedTileType().actionText == None)
+
+def isBuildMenuButtonHidden():
+    return (isCitizenMenuHidden()
+            or isTileTypeSelected())
+
+def isBuildingKnown(buildingStr):
+    return buildingStr in selectedCitizen().knownTechnologies
+
+def isCitizenOnUnfinishedBuilding(buildingStr):
+    return (isCitizenSelected()
+            and isinstance(selectedTileType(), techToBuilding[buildingStr])
+            and not selectedTileType().isBuilt)
 
 #
 
@@ -152,44 +188,3 @@ def knownBuildings(citizen):
 
 def spawnCitizen(house):
     tileContainingTileType(house).spawnCitizen()
-
-#Text elements
-def actionButtonText():
-    return "Next Turn" if len(actionQueue()) == 0 else "Next Citizen"
-
-def actionPointTxt():
-    citizen = selectedCitizen()
-    return f"Action points: {citizen.movementPoints}/{citizen.movement}"
-
-def healthPointTxt():
-    citizen = selectedCitizen()
-    return f"Health points: {citizen.hp}/{citizen.totalHp}"
-
-def hungerStatusTxt():
-    citizen = selectedCitizen()
-    return f"Hunger status: {citizen.hungerPoints} ({citizen.hungerStatus()})"
-
-def citizenActionButtonTxt():
-    return selectedTileType().actionText
-
-#UI visibility
-def isCitizenMenuHidden():
-    return not isCitizenSelected()
-
-def isCitizenActionButtonHidden():
-    return (isCitizenMenuHidden()
-            or not isTileTypeSelected()
-            or selectedTileType().actionText == None)
-
-def isBuildMenuButtonHidden():
-    return (isCitizenMenuHidden()
-            or isTileTypeSelected())
-
-def isBuildingKnown(buildingStr):
-    return buildingStr in selectedCitizen().knownTechnologies
-
-def isCitizenOnUnfinishedBuilding(buildingStr):
-    return (isCitizenSelected()
-            and isinstance(selectedTileType(), techToBuilding[buildingStr])
-            and not selectedTileType().isBuilt)
-

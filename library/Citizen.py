@@ -7,19 +7,19 @@ from library.buildings import House
 class Citizen:
     img = pygame.image.load(os.path.join("assets", "citizen.png"))
 
-    movementCost = None #impassable
-    movementPoints = 1
-    movement = 1
+    acitionPointCost = None #impassable
+    actionPoints = 1
+    totalActionPoints = 1
     owner = currentPlayer
     knownTechnologies = ["mining", "replanting", "house", "sawMill"]
 
-    def useMovementPoints(self, points):
-        self.movementPoints -= points
-        if self.movementPoints < 0:
-            self.movementPoints = 0
+    def useActionPoints(self, points):
+        self.actionPoints -= points
+        if self.actionPoints < 0:
+            self.actionPoints = 0
 
-    def resetMovementPoints(self):
-        self.movementPoints = self.movement
+    def resetActionPoints(self):
+        self.actionPoints = self.totalActionPoints
     
     hp = 20
     totalHp = 20
@@ -51,14 +51,14 @@ class Citizen:
         self.isIdle = False
 
         if (self.isLocked
-            and self.movementPoints > 0
+            and self.actionPoints > 0
             and self.latestAction != None):
             self.latestAction["action"](*self.latestAction["args"])
 
-        self.resetMovementPoints()
+        self.resetActionPoints()
 
     def isInQueue(self):
-        return self.movementPoints > 0 and not self.isIdle and not self.isLocked
+        return self.actionPoints > 0 and not self.isIdle and not self.isLocked
 
     def actOnTile(self, tileType):
         if isinstance(tileType, Tree):
@@ -74,19 +74,19 @@ class Citizen:
             self.wakeUp()
             return
 
-        self.useMovementPoints(10)
+        self.useActionPoints(10)
 
     def mine(self, stone):
         resource = stone.getResourceType()
         if resource == "stone":
             self.owner.stone += 1
-        self.useMovementPoints(10)
+        self.useActionPoints(10)
 
     def buildHouse(self, tile):
         if tile.containsSpecificTileType(House):
             house = tile.getTileType()
             house.build() 
-            self.useMovementPoints(10)
+            self.useActionPoints(10)
             if house.isBuilt: 
                 self.wakeUp()
         elif House.cost["wood"] <= self.owner.wood:

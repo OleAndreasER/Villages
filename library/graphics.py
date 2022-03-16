@@ -116,7 +116,7 @@ def drawWorld(win):
         selectedTile = tiles[getSelected()[1]][getSelected()[0]]
         
         if not selectedTile.containsCitizen(): return
-        if selectedTile.getCitizen().movementPoints == 0: return
+        if selectedTile.getCitizen().actionPoints == 0: return
 
         drawMoves(win, availableTiles(*getSelected()))
 
@@ -180,7 +180,7 @@ def leftClick(win, pos):
 
     resetToggles()
 
-    selectTile(*worldFuncWithScreen(coordinatesToIndex, *pos))
+    selectTile(worldFuncWithScreen(coordinatesToIndex, *pos))
 
 def leftClickRelease(win, pos):
     for ui in UIComponents():
